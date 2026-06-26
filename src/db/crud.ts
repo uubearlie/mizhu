@@ -115,6 +115,29 @@ export async function deletePayment(id: string): Promise<void> {
   await db.paymentRecords.delete(id)
 }
 
+/**
+ * 通过 batchId 批量删除大套购结算关联的 PaymentRecord
+ */
+export async function deletePaymentsByBatch(batchId: string): Promise<void> {
+  await db.paymentRecords.where('batchId').equals(batchId).delete()
+}
+
+/**
+ * 确认收货时，自动为平台保价退款（即时到账）创建收款记录
+ * 平台保价的 dueRule 为"即时"，确认收货即视为已到账
+ */
+export async function autoCollectPlatformRefunds(itemId: string, entries: CashbackEntry[], confirmDate: string): Promise<void> {
+  const platformRefunds = entries.filter(e => e.type === 'platform_refund' && e.amount > 0)
+  for (const refund of platformRefunds) {
+    await createPayment({
+      itemId,
+      date: confirmDate,
+      amount: refund.amount,
+      payer: '店铺',
+    })
+  }
+}
+
 // ===== SettlementBatch =====
 
 export async function getBatchesByActivity(activityId: string): Promise<SettlementBatch[]> {
@@ -129,6 +152,32 @@ export async function createBatch(data: Omit<SettlementBatch, 'id'>): Promise<st
 
 export async function deleteBatch(id: string): Promise<void> {
   await db.settlementBatches.delete(id)
+}
+
+export async function updateBatch(id: string, data: Partial<SettlementBatch>): Promise<void> {
+  await db.settlementBatches.update(id, data)
+}
+
+/**
+ * 撤销大套购结算批次：回退 big_purchase 条目为预估 + 删除所有关联 PaymentRecord + 删除批次
+ */
+export async function undoSettlementBatch(
+  batchId: string,
+  estimateRate: number,
+): Promise<void> {
+  const batch = await db.settlementBatches.get(batchId)
+  if (!batch) return
+  for (const alloc of batch.allocations) {
+    const entries = await getEntriesByItem(alloc.itemId)
+    const bp = entries.find(e => e.type === 'big_purchase')
+    if (bp) {
+      const item = await getItem(alloc.itemId)
+      const estimate = Math.round((item?.price ?? 0) * estimateRate * 100) / 100
+      await updateEntry(bp.id, { isEstimated: true, amount: estimate })
+    }
+  }
+  await deletePaymentsByBatch(batchId)
+  await deleteBatch(batchId)
 }
 
 // ===== Composite helpers =====

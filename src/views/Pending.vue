@@ -24,20 +24,10 @@
         <span>{{ currentActivity.name }}</span>
       </div>
 
-      <van-collapse v-model="activeNames">
-        <!-- 分组1: 等待到账 -->
-        <van-collapse-item name="waiting">
-          <template #title>
-            <span class="group-title">
-              ⏳ 等待到账
-              <van-tag v-if="waitingList.length" type="primary" plain round>
-                {{ waitingList.length }}
-              </van-tag>
-            </span>
-          </template>
-
+      <van-tabs v-model:active="activeTab" sticky>
+        <!-- Tab 1: 订单返现 -->
+        <van-tab title="订单返现">
           <div v-if="waitingList.length === 0" class="empty-tip">暂无等待到账的返现</div>
-
           <div
             v-for="w in waitingList"
             :key="w.item.id"
@@ -66,41 +56,58 @@
               </van-button>
             </div>
           </div>
-        </van-collapse-item>
+        </van-tab>
 
-        <!-- 分组2: 大套购待结算 -->
-        <van-collapse-item name="big">
-          <template #title>
-            <span class="group-title">
-              📋 大套购待结算
-              <van-tag v-if="bigPurchaseCount" type="warning" plain round>
-                {{ bigPurchaseCount }}
-              </van-tag>
-            </span>
-          </template>
-
-          <div v-if="bigPurchaseCount === 0" class="empty-tip">暂无待结算商品</div>
-
-          <div v-else class="pending-card">
-            <div class="card-head">
-              <span class="card-name">{{ currentActivity.name }} · 大套购</span>
-              <van-tag type="warning" round>待结算</van-tag>
-            </div>
-            <div class="card-info">
-              <span>{{ bigPurchaseCount }} 件未结算</span>
-              <span>
-                预估
-                <span class="amt amt-red">¥{{ fmt(bigPurchaseTotal) }}</span>
-              </span>
-            </div>
-            <div class="card-actions">
-              <van-button size="small" type="warning" icon="balance-o" @click="goSettlement">
-                手动结算
-              </van-button>
+        <!-- Tab 2: 大套购 -->
+        <van-tab :title="`大套购${bigItems.length > 0 ? ' ' + bigItems.length : ''}`">
+          <!-- 可结算 -->
+          <div v-if="settledBigItems.length > 0" class="big-section">
+            <div class="big-section-title text-green">✅ 可结算（{{ settledBigItems.length }}）</div>
+            <div
+              v-for="b in settledBigItems"
+              :key="b.item.id"
+              class="pending-card big-card"
+            >
+              <div class="card-head">
+                <span class="card-name">{{ b.item.name }}</span>
+                <van-tag type="success" round size="medium">可结算</van-tag>
+              </div>
+              <div class="card-info">
+                <span>下单 <span class="amt">¥{{ fmt(b.item.price) }}</span></span>
+                <span>预估返 <span class="amt amt-red">¥{{ fmt(b.amount) }}</span></span>
+              </div>
             </div>
           </div>
-        </van-collapse-item>
-      </van-collapse>
+
+          <!-- 不可结算 -->
+          <div v-if="unsettledBigItems.length > 0" class="big-section">
+            <div class="big-section-title text-gray">🔒 返现未到账（{{ unsettledBigItems.length }}）</div>
+            <div
+              v-for="b in unsettledBigItems"
+              :key="b.item.id"
+              class="pending-card big-card big-card--disabled"
+            >
+              <div class="card-head">
+                <span class="card-name">{{ b.item.name }}</span>
+                <van-tag type="warning" plain round size="medium">待到账</van-tag>
+              </div>
+              <div class="card-info">
+                <span>下单 <span class="amt">¥{{ fmt(b.item.price) }}</span></span>
+                <span>预估返 <span class="amt amt-red">¥{{ fmt(b.amount) }}</span></span>
+              </div>
+              <div class="big-hint">店铺待返 ¥{{ fmt(b.storePending) }}，迷住待返 ¥{{ fmt(b.mizhuPending) }}</div>
+            </div>
+          </div>
+
+          <div v-if="bigItems.length === 0" class="empty-tip">暂无待结算商品</div>
+
+          <div v-if="bigItems.length > 0" class="card-actions" style="padding: 12px 0;">
+            <van-button size="small" type="warning" icon="balance-o" @click="goSettlement">
+              前往结算
+            </van-button>
+          </div>
+        </van-tab>
+      </van-tabs>
     </div>
 
     <!-- 收到返现弹窗 -->
@@ -117,12 +124,12 @@
 
         <!-- 待返金额 -->
         <div class="pending-summary">
-          <div class="summary-item">
+          <div class="summary-item clickable" @click="fillPayment('店铺')">
             <div class="summary-label">店铺待返</div>
             <div class="summary-amt text-red">¥{{ fmt(popupData.calc.storePending) }}</div>
           </div>
           <div class="summary-divider" />
-          <div class="summary-item">
+          <div class="summary-item clickable" @click="fillPayment('迷住')">
             <div class="summary-label">迷住待返</div>
             <div class="summary-amt text-red">¥{{ fmt(popupData.calc.mizhuPending) }}</div>
           </div>
@@ -163,7 +170,7 @@
         <div v-for="r in popupPayments" :key="r.id" class="record-row">
           <div class="record-left">
             <span class="record-date">{{ fmtDate(r.date) }}</span>
-            <van-tag :type="r.payer === '店铺' ? 'danger' : 'success'" plain>
+            <van-tag :type="r.payer === '店铺' ? 'danger' : r.payer === '迷住' ? 'success' : 'warning'" plain>
               {{ r.payer }}
             </van-tag>
           </div>
@@ -194,9 +201,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { showToast } from 'vant'
+import { showToast, showConfirmDialog, showSuccessToast } from 'vant'
 import type { Activity, Item, CashbackEntry, PaymentRecord, Payer } from '@/types'
-import { ENTRY_TYPE_MAP } from '@/types'
+import { ENTRY_TYPE_MAP, BIG_PURCHASE_ESTIMATE_RATE } from '@/types'
 import {
   getAllActivities,
   getItemsByActivity,
@@ -204,6 +211,7 @@ import {
   getPaymentsByItem,
   createPayment,
   deletePayment,
+  undoSettlementBatch,
 } from '@/db/crud'
 import { calcItem, type ItemCalc } from '@/calc/aggregate'
 import { parseToYuan } from '@/calc/money'
@@ -217,7 +225,7 @@ const STORAGE_KEY = 'mizhu_current_activity_id'
 const loading = ref(true)
 const activities = ref<Activity[]>([])
 const currentActivityId = ref<string | null>(null)
-const activeNames = ref<string[]>(['waiting'])
+const activeTab = ref(0)
 
 interface WaitingItem {
   item: Item
@@ -233,6 +241,9 @@ const waitingList = ref<WaitingItem[]>([])
 interface BigItem {
   item: Item
   amount: number
+  storePending: number
+  mizhuPending: number
+  canSettle: boolean
 }
 const bigItems = ref<BigItem[]>([])
 
@@ -249,11 +260,8 @@ const currentActivity = computed(
   () => activities.value.find(a => a.id === currentActivityId.value) ?? null,
 )
 
-const bigPurchaseCount = computed(() => bigItems.value.length)
-
-const bigPurchaseTotal = computed(() =>
-  r2(bigItems.value.reduce((s, b) => s + b.amount, 0)),
-)
+const settledBigItems = computed(() => bigItems.value.filter(b => b.canSettle))
+const unsettledBigItems = computed(() => bigItems.value.filter(b => !b.canSettle))
 
 const popupData = computed(() =>
   waitingList.value.find(w => w.item.id === popupItemId.value) ?? null,
@@ -266,7 +274,7 @@ const popupPayments = computed<PaymentRecord[]>(() => {
 
 const popupTotalPaid = computed(() => {
   const p = popupData.value
-  return p ? r2(p.calc.storePaid + p.calc.mizhuPaid) : 0
+  return p ? r2(p.calc.storePaid + p.calc.mizhuPaid + p.calc.bigPurchasePaid) : 0
 })
 
 // ---- Helpers ----
@@ -338,11 +346,18 @@ async function loadData() {
     // 大套购待结算：存在预估中的 big_purchase 条目
     const bp = entries.find(e => e.type === 'big_purchase' && e.isEstimated)
     if (bp && bp.amount > 0) {
-      big.push({ item, amount: bp.amount })
+      big.push({
+        item,
+        amount: bp.amount,
+        storePending: calc.storePending,
+        mizhuPending: calc.mizhuPending,
+        canSettle: calc.storePending <= 0 && calc.mizhuPending <= 0,
+      })
     }
 
-    // 等待到账：存在带应到日期的非大套购条目，且仍有待返
-    if (calc.totalPending <= 0) continue
+    // 等待到账：存在带应到日期的非大套购条目，且店铺/迷住仍有待返
+    const pending = calc.storePending + calc.mizhuPending
+    if (pending <= 0) continue
     const dueDates = entries
       .filter(e => e.type !== 'big_purchase')
       .map(e => computeDueDate(e, item))
@@ -393,6 +408,15 @@ function openPopup(w: WaitingItem) {
   showPopup.value = true
 }
 
+function fillPayment(payer: Payer) {
+  if (!popupData.value) return
+  const pending = payer === '店铺'
+    ? popupData.value.calc.storePending
+    : popupData.value.calc.mizhuPending
+  payPayer.value = payer
+  payAmount.value = pending > 0 ? String(pending) : ''
+}
+
 async function confirmPayment() {
   const id = popupItemId.value
   if (!id) return
@@ -428,8 +452,22 @@ async function confirmPayment() {
 }
 
 async function removePayment(paymentId: string) {
-  await deletePayment(paymentId)
-  showToast('已删除')
+  const payment = popupPayments.value.find(p => p.id === paymentId)
+  if (payment?.batchId) {
+    try {
+      await showConfirmDialog({
+        title: '删除确认',
+        message: '该返现记录属于大套购结算批次，将同时撤销该批次的所有结算记录，确定删除？',
+      })
+    } catch {
+      return
+    }
+    await undoSettlementBatch(payment.batchId, BIG_PURCHASE_ESTIMATE_RATE)
+    showSuccessToast('已撤销结算批次')
+  } else {
+    await deletePayment(paymentId)
+    showToast('已删除')
+  }
   await loadData()
 }
 
@@ -480,11 +518,41 @@ onMounted(init)
   padding: 16px 0;
 }
 
+.big-section {
+  margin-bottom: 12px;
+}
+
+.big-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 0 8px;
+}
+
+.big-section-title.text-green {
+  color: #07c160;
+}
+
+.big-section-title.text-gray {
+  color: #969799;
+}
+
+.big-card--disabled {
+  opacity: 0.65;
+}
+
+.big-hint {
+  font-size: 12px;
+  color: #ee0a24;
+  margin-top: 4px;
+}
+
 .pending-card {
   background: #fff;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 8px;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--mz-shadow, 0 2px 12px rgba(91, 141, 239, 0.06));
+  border: 1px solid var(--mz-border, #eef0f3);
 }
 
 .card-head {
@@ -555,6 +623,15 @@ onMounted(init)
 
 .summary-item {
   text-align: center;
+}
+
+.summary-item.clickable {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.summary-item.clickable:active {
+  opacity: 0.6;
 }
 
 .summary-label {

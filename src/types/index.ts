@@ -1,6 +1,6 @@
 // ===== Core Enums =====
 
-export type Payer = '店铺' | '迷住'
+export type Payer = '店铺' | '迷住' | '大套购'
 
 export type ItemStatus = '待收货' | '待返现' | '已完成' | '已取消'
 
@@ -76,11 +76,13 @@ export interface PaymentRecord {
   date: string
   amount: number
   payer: Payer
+  batchId?: string
 }
 
 export interface SettlementAllocation {
   itemId: string
   amount: number
+  paymentId?: string
 }
 
 export interface SettlementBatch {
@@ -106,7 +108,7 @@ export const ENTRY_TYPE_MAP: Record<CashbackEntryType, { payer: Payer; dueRule: 
   captain_coupon: { payer: '迷住', dueRule: '收货+14天', label: '舰长神券' },
   renovation_coupon: { payer: '迷住', dueRule: '收货+14天', label: '装修神券' },
   mizhu_protect: { payer: '迷住', dueRule: '收货+14天', label: '迷住保价' },
-  big_purchase: { payer: '迷住', dueRule: '手动结算', label: '大套购分摊' },
+  big_purchase: { payer: '大套购', dueRule: '手动结算', label: '大套购分摊' },
 }
 
 // 手动固定型

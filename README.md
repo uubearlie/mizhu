@@ -1,5 +1,76 @@
-# Vue 3 + TypeScript + Vite
+# 🛒 迷住团购管家
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+一个用于管理团购商品下单与返现追踪的 PWA 应用。支持多活动管理、返现明细记录、大套购结算、数据统计等功能。数据全部存储在本地，无需服务器。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## ✨ 核心功能
+
+- **活动管理**：创建/切换团购活动，配置大套购阶梯返现规则
+- **订单录入**：记录商品信息、下单价、店铺/迷住返现明细、品牌套购系数
+- **返现追踪**：三种来源独立统计（店铺返现、迷住返现、大套购），支持快速收款
+- **保价管理**：平台/店铺保价退款记录，确认收货时平台保价自动到账
+- **大套购结算**：阶梯式返现计算，支持批量结算与撤销
+- **数据统计**：返现构成图表、趋势分析、数据导出（JSON/CSV）
+- **离线使用**：PWA 应用，安装后可离线使用，数据本地存储
+
+## 📱 安装方式
+
+### iOS
+1. 用 Safari 打开应用网址
+2. 点击底部「分享」按钮 →「添加到主屏幕」
+3. 从主屏幕图标启动即可全屏使用
+
+### Android
+1. 用 Chrome 打开应用网址
+2. 点击浏览器菜单 →「添加到主屏幕」或「安装应用」
+3. 从桌面图标启动即可
+
+> 详细安装指南见 [`release/`](./release/) 目录。
+
+## 🛠️ 技术栈
+
+| 技术 | 说明 |
+|------|------|
+| Vue 3 + TypeScript | 前端框架 |
+| Vant 4 | 移动端 UI 组件库 |
+| Vite | 构建工具 |
+| Dexie.js (IndexedDB) | 本地数据存储 |
+| ECharts | 图表可视化 |
+| Tailwind CSS | 原子化 CSS |
+| PWA (Workbox) | 离线缓存与自动更新 |
+
+## 🚀 开发
+
+```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 构建生产版本
+npm run build
+
+# 预览构建结果
+npm run preview
+```
+
+## 📂 项目结构
+
+```
+src/
+├── views/          # 页面组件（首页、订单、待返、统计、结算等）
+├── components/     # 公共组件
+├── calc/           # 计算逻辑（返现聚合、品牌套购、大套购、保价）
+├── db/             # 数据层（Dexie schema + CRUD）
+├── types/          # TypeScript 类型定义
+├── router/         # 路由配置
+└── style.css       # 全局样式
+```
+
+## 📋 更新日志
+
+详见 [CHANGELOG.md](./CHANGELOG.md)
+
+## 📄 License
+
+MIT

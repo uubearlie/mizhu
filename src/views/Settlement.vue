@@ -40,18 +40,20 @@
           v-for="u in unsettledItems"
           :key="u.item.id"
           class="order-item"
-          :class="{ 'order-item--active': selectedIds.includes(u.item.id) }"
-          @click="toggleSelect(u.item.id)"
+          :class="{ 'order-item--active': selectedIds.includes(u.item.id), 'order-item--disabled': !u.canSettle }"
+          @click="u.canSettle && toggleSelect(u.item.id)"
         >
           <van-checkbox
             :name="u.item.id"
             shape="square"
             :model-value="selectedIds.includes(u.item.id)"
+            :disabled="!u.canSettle"
             @click.stop
           />
           <div class="order-info">
             <div class="order-name">{{ u.item.name }}</div>
             <div class="order-price">¥{{ fmt(u.item.price) }}</div>
+            <div v-if="!u.canSettle" class="order-hint">店铺/迷住返现未全部到账</div>
           </div>
         </div>
       </van-checkbox-group>
@@ -168,7 +170,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast, showConfirmDialog } from 'vant'
-import type { Activity, Item, CashbackEntry, SettlementBatch, BigPurchaseRule } from '@/types'
+import type { Activity, Item, CashbackEntry, SettlementBatch, SettlementAllocation, BigPurchaseRule } from '@/types'
 import { BIG_PURCHASE_ESTIMATE_RATE } from '@/types'
 import {
   getAllActivities,
@@ -177,12 +179,14 @@ import {
   getPaymentsByItem,
   getBatchesByActivity,
   createBatch,
+  updateBatch,
   deleteBatch,
   createPayment,
-  deletePayment,
+  deletePaymentsByBatch,
   updateEntry,
 } from '@/db/crud'
 import { previewSettlement } from '@/calc/bigPurchase'
+import { calcItem } from '@/calc/aggregate'
 
 const router = useRouter()
 const STORAGE_KEY = 'mizhu_current_activity_id'
@@ -200,6 +204,7 @@ interface UnsettledItem {
   item: Item
   entries: CashbackEntry[]
   bigEntry: CashbackEntry
+  canSettle: boolean
 }
 const unsettledItems = ref<UnsettledItem[]>([])
 const batches = ref<SettlementBatch[]>([])
@@ -290,13 +295,16 @@ async function loadData() {
     const entries = await getEntriesByItem(item.id)
     const bp = entries.find(e => e.type === 'big_purchase' && e.isEstimated)
     if (bp) {
-      unsettled.push({ item, entries, bigEntry: bp })
+      const payments = await getPaymentsByItem(item.id)
+      const calc = calcItem(item, entries, payments)
+      const canSettle = calc.storePending <= 0 && calc.mizhuPending <= 0
+      unsettled.push({ item, entries, bigEntry: bp, canSettle })
     }
   }
   unsettledItems.value = unsettled
 
-  // 默认全选
-  selectedIds.value = unsettled.map(u => u.item.id)
+  // 默认全选可结算的
+  selectedIds.value = unsettled.filter(u => u.canSettle).map(u => u.item.id)
 
   // 结算批次（按日期降序，最新的在最前）
   const allBatches = await getBatchesByActivity(aid)
@@ -342,23 +350,29 @@ async function doSettlement(itemIds: string[]) {
 
   const today = new Date().toISOString().slice(0, 10)
 
-  // 1. 创建批次
-  await createBatch({ activityId: aid, date: today, totalAmount, totalCashback, allocations })
+  // 1. 创建批次（先不带 allocations）
+  const batchId = await createBatch({ activityId: aid, date: today, totalAmount, totalCashback, allocations: [] })
 
-  // 2. 回写每个商品的 big_purchase 条目（锁定为分摊金额）+ 生成 PaymentRecord
+  // 2. 回写每个商品的 big_purchase 条目 + 生成 PaymentRecord
+  const finalAllocations: SettlementAllocation[] = []
   for (const alloc of allocations) {
     const u = targets.find(t => t.item.id === alloc.itemId)
     if (!u) continue
     if (u.bigEntry) {
       await updateEntry(u.bigEntry.id, { isEstimated: false, amount: alloc.amount })
     }
-    await createPayment({
+    const paymentId = await createPayment({
       itemId: alloc.itemId,
       date: today,
       amount: alloc.amount,
-      payer: '迷住',
+      payer: '大套购',
+      batchId,
     })
+    finalAllocations.push({ itemId: alloc.itemId, amount: alloc.amount, paymentId })
   }
+
+  // 3. 更新批次的 allocations
+  await updateBatch(batchId, { allocations: finalAllocations })
 
   showToast({ type: 'success', message: '结算成功' })
   selectedIds.value = []
@@ -379,7 +393,7 @@ async function confirmSettle() {
 }
 
 async function settleAll() {
-  const allIds = unsettledItems.value.map(u => u.item.id)
+  const allIds = unsettledItems.value.filter(u => u.canSettle).map(u => u.item.id)
   if (allIds.length === 0) {
     showToast('暂无可结算的商品')
     return
@@ -406,7 +420,7 @@ async function undoBatch(batch: SettlementBatch) {
 
   undoingId.value = batch.id
   try {
-    // 1. 回退每个商品的 big_purchase 条目 + 删除对应 PaymentRecord
+    // 1. 回退每个商品的 big_purchase 条目
     for (const alloc of batch.allocations) {
       const item = itemMap.value.get(alloc.itemId)
       const entries = await getEntriesByItem(alloc.itemId)
@@ -415,15 +429,12 @@ async function undoBatch(batch: SettlementBatch) {
         const estimate = r2((item?.price ?? 0) * BIG_PURCHASE_ESTIMATE_RATE)
         await updateEntry(bp.id, { isEstimated: true, amount: estimate })
       }
-      // 找到结算时生成的 PaymentRecord 并删除
-      const payments = await getPaymentsByItem(alloc.itemId)
-      const payment = payments.find(p => p.payer === '迷住' && p.amount === alloc.amount)
-      if (payment) {
-        await deletePayment(payment.id)
-      }
     }
 
-    // 2. 删除批次
+    // 2. 通过 batchId 精确删除所有关联的 PaymentRecord
+    await deletePaymentsByBatch(batch.id)
+
+    // 3. 删除批次
     await deleteBatch(batch.id)
 
     showToast('已撤销结算')
@@ -521,6 +532,15 @@ onMounted(init)
 
 .order-item--active {
   background: #f0f9ff;
+}
+
+.order-item--disabled {
+  opacity: 0.5;
+}
+
+.order-hint {
+  font-size: 12px;
+  color: #ee0a24;
 }
 
 .order-info {

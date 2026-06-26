@@ -115,7 +115,10 @@ export function validateItem(item: Item, entries: CashbackEntry[]): string | nul
   const mizhuTotal = entries
     .filter(e => ENTRY_TYPE_MAP[e.type].payer === '迷住')
     .reduce((s, e) => s + e.amount, 0)
-  const total = storeTotal + mizhuTotal
+  const bigPurchaseTotal = entries
+    .filter(e => e.type === 'big_purchase')
+    .reduce((s, e) => s + e.amount, 0)
+  const total = storeTotal + mizhuTotal + bigPurchaseTotal
 
   if (total > item.price) {
     return `返现总额（¥${total.toFixed(2)}）不能超过下单价（¥${item.price.toFixed(2)}）`
@@ -126,7 +129,7 @@ export function validateItem(item: Item, entries: CashbackEntry[]): string | nul
     return '到手价为负数，请检查返现金额'
   }
 
-  if (item.mizhuProtectPrice && item.mizhuProtectPrice >= item.price) {
+  if (item.mizhuProtectPrice != null && item.mizhuProtectPrice >= item.price) {
     return '迷住保价到手价应低于下单价'
   }
 

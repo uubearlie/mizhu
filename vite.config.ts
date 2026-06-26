@@ -25,8 +25,8 @@ export default defineConfig({
         name: '迷住团购管家',
         short_name: '迷住管家',
         description: '记录和统计迷住团购活动中的下单与返现',
-        theme_color: '#1989fa',
-        background_color: '#f7f8fa',
+        theme_color: '#5b8def',
+        background_color: '#f5f7fa',
         display: 'standalone',
         icons: [
           {

@@ -77,6 +77,13 @@
           <!-- 操作按钮 -->
           <template #footer>
             <van-button
+              v-if="row.item.status === '待收货'"
+              size="small"
+              type="primary"
+              plain
+              @click="doConfirmReceipt(row)"
+            >确认收货</van-button>
+            <van-button
               v-if="row.item.status !== '已取消'"
               size="small"
               plain
@@ -88,7 +95,7 @@
 
         <van-empty
           v-if="filteredRows.length === 0"
-          description="暂无商品记录"
+          description="暂无订单"
         />
       </div>
     </template>
@@ -221,9 +228,10 @@ import {
   deleteItem,
   replaceItemEntries,
   deletePayment,
+  autoCollectPlatformRefunds,
 } from '@/db/crud'
 import { calcItem, type ItemCalc } from '@/calc/aggregate'
-import { recalcDynamicEntries, updateDueDates } from '@/calc/recalc'
+import { recalcDynamicEntries, updateDueDates, validateItem } from '@/calc/recalc'
 import { parseToYuan } from '@/calc/money'
 
 const router = useRouter()
@@ -367,6 +375,8 @@ async function doConfirmReceipt(row: ItemRow) {
   let entries = recalcDynamicEntries(updatedItem, row.entries)
   entries = updateDueDates(entries, today)
   await replaceItemEntries(row.item.id, entries)
+  // 平台保价为即时到账，自动创建收款记录
+  await autoCollectPlatformRefunds(row.item.id, entries, today)
   await updateItem(row.item.id, { status: '待返现', confirmDate: today })
   showSuccessToast('已确认收货')
   await loadData()
@@ -409,7 +419,7 @@ async function doCancel(row: ItemRow) {
 async function doDelete(row: ItemRow) {
   try {
     await showConfirmDialog({
-      title: '删除商品',
+      title: '删除订单',
       message: `确定删除「${row.item.name}」吗？将同时删除关联的返现和收款记录。`,
     })
   } catch {
@@ -502,6 +512,15 @@ async function confirmProtect() {
   const mizhuType: MizhuProtectType = work.mizhuType || null
   const mizhuPrice = work.mizhuPriceInput ? parseToYuan(work.mizhuPriceInput) : null
 
+  // 保价类型和价格必须同时填写
+  if (mizhuType && mizhuPrice == null) {
+    showToast('请输入迷住保价到手价')
+    return
+  }
+  if (!mizhuType && mizhuPrice != null) {
+    showToast('请选择保价类型')
+    return
+  }
   // 校验迷住保价到手价 < 下单价
   if (mizhuType && mizhuPrice != null && mizhuPrice >= row.item.price) {
     showToast('迷住保价到手价应低于下单价')
@@ -521,6 +540,13 @@ async function confirmProtect() {
     mizhuProtectPrice: mizhuPrice,
   }
   let finalEntries = recalcDynamicEntries(updatedItem, merged)
+
+  // 全量校验（返现总额不超过下单价等）
+  const error = validateItem(updatedItem, finalEntries)
+  if (error) {
+    showToast(error)
+    return
+  }
 
   // 若已确认收货，补算 dueDate
   if (updatedItem.confirmDate) {

@@ -2,7 +2,7 @@
   <div class="item-detail-page">
     <!-- 导航栏 -->
     <van-nav-bar
-      :title="item?.name ?? '商品详情'"
+      :title="item?.name ?? '订单详情'"
       left-arrow
       fixed
       placeholder
@@ -21,7 +21,7 @@
     </div>
 
     <!-- 不存在 -->
-    <van-empty v-else-if="!item" description="商品不存在或已删除" />
+    <van-empty v-else-if="!item" description="订单不存在或已删除" />
 
     <!-- 内容区 -->
     <template v-else>
@@ -224,12 +224,48 @@
               <span class="entry-name">{{ entryLabel(e) }}</span>
               <van-tag :type="entryTagType(e)" plain size="medium">{{ entryTagText(e) }}</van-tag>
             </div>
-            <span class="entry-money">¥{{ fmt(e.amount) }}</span>
+            <van-field
+              v-if="editMode && isEditableEntry(e)"
+              v-model="editEntryAmounts[e.id]"
+              type="number"
+              placeholder="0.00"
+              class="entry-amount-edit"
+              input-align="right"
+            >
+              <template #left-icon><span class="currency">¥</span></template>
+            </van-field>
+            <span v-else class="entry-money">¥{{ fmt(e.amount) }}</span>
           </div>
           <div v-if="storeEntries.length === 0" class="entry-empty">暂无返现条目</div>
-        </div>
 
-        <!-- 迷住侧 -->
+          <!-- 编辑模式：新增的自定义条目 -->
+          <template v-if="editMode">
+            <div
+              v-for="ne in editNewEntries.filter(e => e.side === '店铺')"
+              :key="ne.tempId"
+              class="entry-row entry-row--new"
+            >
+              <input
+                v-model="ne.label"
+                class="new-entry-label"
+                placeholder="条目名称"
+              />
+              <van-field
+                v-model="ne.amount"
+                type="number"
+                placeholder="0.00"
+                class="entry-amount-edit"
+                input-align="right"
+              >
+                <template #left-icon><span class="currency">¥</span></template>
+              </van-field>
+              <van-icon name="cross" class="entry-del-icon" @click="removeNewEntry(ne.tempId)" />
+            </div>
+            <div class="add-entry-btn" @click="addNewEntry('店铺')">
+              <van-icon name="add-o" /> 添加店铺侧条目
+            </div>
+          </template>
+        </div>
         <div class="entry-group">
           <div class="group-header">
             <span class="group-name">
@@ -250,9 +286,72 @@
               <span class="entry-name">{{ entryLabel(e) }}</span>
               <van-tag :type="entryTagType(e)" plain size="medium">{{ entryTagText(e) }}</van-tag>
             </div>
-            <span class="entry-money">¥{{ fmt(e.amount) }}</span>
+            <van-field
+              v-if="editMode && isEditableEntry(e)"
+              v-model="editEntryAmounts[e.id]"
+              type="number"
+              placeholder="0.00"
+              class="entry-amount-edit"
+              input-align="right"
+            >
+              <template #left-icon><span class="currency">¥</span></template>
+            </van-field>
+            <span v-else class="entry-money">¥{{ fmt(e.amount) }}</span>
           </div>
           <div v-if="mizhuEntries.length === 0" class="entry-empty">暂无返现条目</div>
+
+          <!-- 编辑模式：新增的自定义条目 -->
+          <template v-if="editMode">
+            <div
+              v-for="ne in editNewEntries.filter(e => e.side === '迷住')"
+              :key="ne.tempId"
+              class="entry-row entry-row--new"
+            >
+              <input
+                v-model="ne.label"
+                class="new-entry-label"
+                placeholder="条目名称"
+              />
+              <van-field
+                v-model="ne.amount"
+                type="number"
+                placeholder="0.00"
+                class="entry-amount-edit"
+                input-align="right"
+              >
+                <template #left-icon><span class="currency">¥</span></template>
+              </van-field>
+              <van-icon name="cross" class="entry-del-icon" @click="removeNewEntry(ne.tempId)" />
+            </div>
+            <div class="add-entry-btn" @click="addNewEntry('迷住')">
+              <van-icon name="add-o" /> 添加迷住侧条目
+            </div>
+          </template>
+        </div>
+
+        <!-- 大套购 -->
+        <div v-if="bigPurchaseEntries.length > 0" class="entry-group">
+          <div class="group-header">
+            <span class="group-name">
+              <span class="dot dot-big" /> 大套购
+            </span>
+            <span class="group-amt">¥{{ fmt(calc.bigPurchaseTotal) }}</span>
+          </div>
+          <div class="group-sub">
+            <span>已返 <b class="text-green">¥{{ fmt(calc.bigPurchasePaid) }}</b></span>
+            <span>待返 <b class="text-red">¥{{ fmt(calc.bigPurchasePending) }}</b></span>
+          </div>
+          <div
+            v-for="e in bigPurchaseEntries"
+            :key="e.id"
+            class="entry-row"
+          >
+            <div class="entry-info">
+              <span class="entry-name">{{ entryLabel(e) }}</span>
+              <van-tag :type="entryTagType(e)" plain size="medium">{{ entryTagText(e) }}</van-tag>
+            </div>
+            <span class="entry-money">¥{{ fmt(e.amount) }}</span>
+          </div>
         </div>
       </div>
 
@@ -269,7 +368,7 @@
         >
           <div class="payment-left">
             <span class="payment-date">{{ r.date.slice(5) }}</span>
-            <van-tag :type="r.payer === '店铺' ? 'danger' : 'success'" plain>{{ r.payer }}</van-tag>
+            <van-tag :type="r.payer === '店铺' ? 'danger' : r.payer === '迷住' ? 'success' : 'warning'" plain>{{ r.payer }}</van-tag>
           </div>
           <div class="payment-right">
             <span class="payment-amount">¥{{ fmt(r.amount) }}</span>
@@ -315,12 +414,12 @@
 
         <!-- 待返金额 -->
         <div class="pending-summary">
-          <div class="summary-item">
+          <div class="summary-item clickable" @click="fillPayment('店铺')">
             <div class="summary-label">店铺待返</div>
             <div class="summary-amt text-red">¥{{ fmt(calc.storePending) }}</div>
           </div>
           <div class="summary-divider" />
-          <div class="summary-item">
+          <div class="summary-item clickable" @click="fillPayment('迷住')">
             <div class="summary-label">迷住待返</div>
             <div class="summary-amt text-red">¥{{ fmt(calc.mizhuPending) }}</div>
           </div>
@@ -380,16 +479,18 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { showToast, showConfirmDialog, showSuccessToast } from 'vant'
 import type { Item, CashbackEntry, PaymentRecord, Channel, MizhuProtectType, ItemStatus, Payer } from '@/types'
-import { ENTRY_TYPE_MAP } from '@/types'
+import { ENTRY_TYPE_MAP, BIG_PURCHASE_ESTIMATE_RATE, MANUAL_ENTRY_TYPES } from '@/types'
 import {
   getItemWithDetails,
   updateItem,
   replaceItemEntries,
   createPayment,
   deletePayment,
+  autoCollectPlatformRefunds,
+  undoSettlementBatch,
 } from '@/db/crud'
 import { calcItem, type ItemCalc } from '@/calc/aggregate'
-import { recalcDynamicEntries, updateDueDates } from '@/calc/recalc'
+import { recalcDynamicEntries, updateDueDates, validateItem } from '@/calc/recalc'
 import { parseToYuan } from '@/calc/money'
 
 const route = useRoute()
@@ -415,6 +516,37 @@ const form = ref({
   mizhuPrice: '',
 })
 
+// 编辑模式下的返现条目金额（id → 金额字符串）
+const editEntryAmounts = ref<Record<string, string>>({})
+
+// 编辑模式新增的自定义条目
+interface NewEntry {
+  tempId: string
+  side: '店铺' | '迷住'
+  label: string
+  amount: string
+}
+const editNewEntries = ref<NewEntry[]>([])
+
+/** 判断条目是否为手动填写、可在编辑模式下修改的 */
+function isEditableEntry(e: CashbackEntry): boolean {
+  return MANUAL_ENTRY_TYPES.includes(e.type)
+}
+
+function addNewEntry(side: '店铺' | '迷住') {
+  editNewEntries.value.push({
+    tempId: crypto.randomUUID(),
+    side,
+    label: '',
+    amount: '',
+  })
+}
+
+function removeNewEntry(tempId: string) {
+  const idx = editNewEntries.value.findIndex(e => e.tempId === tempId)
+  if (idx >= 0) editNewEntries.value.splice(idx, 1)
+}
+
 // ===== 保价编辑 =====
 const editPlatformEntries = ref<CashbackEntry[]>([])
 const editStoreEntries = ref<CashbackEntry[]>([])
@@ -434,7 +566,7 @@ const submitting = ref(false)
 // ===== 计算属性 =====
 const calc = computed<ItemCalc>(() => {
   if (!item.value) {
-    return { storeTotal: 0, mizhuTotal: 0, finalPrice: 0, storePaid: 0, mizhuPaid: 0, storePending: 0, mizhuPending: 0, totalPending: 0 }
+    return { storeTotal: 0, mizhuTotal: 0, bigPurchaseTotal: 0, finalPrice: 0, storePaid: 0, mizhuPaid: 0, bigPurchasePaid: 0, storePending: 0, mizhuPending: 0, bigPurchasePending: 0, totalPending: 0 }
   }
   return calcItem(item.value, entries.value, payments.value)
 })
@@ -456,6 +588,9 @@ const storeEntries = computed(() =>
 )
 const mizhuEntries = computed(() =>
   entries.value.filter(e => ENTRY_TYPE_MAP[e.type].payer === '迷住'),
+)
+const bigPurchaseEntries = computed(() =>
+  entries.value.filter(e => e.type === 'big_purchase'),
 )
 const sortedPayments = computed(() =>
   [...payments.value].sort((a, b) => (a.date < b.date ? 1 : -1)),
@@ -548,6 +683,15 @@ function enterEdit() {
   editStoreEntries.value = entries.value
     .filter(e => e.type === 'store_refund')
     .map(e => ({ ...e }))
+  // 初始化可编辑条目的金额
+  const amounts: Record<string, string> = {}
+  for (const e of entries.value) {
+    if (isEditableEntry(e)) {
+      amounts[e.id] = String(e.amount)
+    }
+  }
+  editEntryAmounts.value = amounts
+  editNewEntries.value = []
   newPlatformAmount.value = ''
   newStoreAmount.value = ''
   editMode.value = true
@@ -638,6 +782,16 @@ async function saveEdit() {
   // 迷住保价校验
   const mizhuType: MizhuProtectType = form.value.mizhuType || null
   const mizhuPrice = form.value.mizhuPrice ? parseToYuan(form.value.mizhuPrice) : null
+
+  // 保价类型和价格必须同时填写
+  if (mizhuType && mizhuPrice == null) {
+    showToast('请输入迷住保价到手价')
+    return
+  }
+  if (!mizhuType && mizhuPrice != null) {
+    showToast('请选择保价类型')
+    return
+  }
   if (mizhuType && mizhuPrice != null && mizhuPrice >= newPrice) {
     showToast('迷住保价到手价应低于下单价')
     return
@@ -656,14 +810,43 @@ async function saveEdit() {
     mizhuProtectPrice: mizhuPrice,
   }
 
-  // 合并 entries：保留非保价条目 + 编辑后的保价条目
-  const keepEntries = entries.value.filter(
-    e => e.type !== 'platform_refund' && e.type !== 'store_refund' && e.type !== 'mizhu_protect',
-  )
-  const merged = [...keepEntries, ...editPlatformEntries.value, ...editStoreEntries.value]
+  // 合并 entries：保留非保价条目（应用编辑后的金额）+ 新增条目 + 编辑后的保价条目
+  const keepEntries = entries.value
+    .filter(e => e.type !== 'platform_refund' && e.type !== 'store_refund' && e.type !== 'mizhu_protect')
+    .map(e => {
+      if (isEditableEntry(e) && editEntryAmounts.value[e.id] != null) {
+        const newAmount = parseToYuan(editEntryAmounts.value[e.id])
+        return { ...e, amount: newAmount }
+      }
+      return e
+    })
+
+  // 构建新增条目
+  const now = new Date().toISOString()
+  const newEntries: CashbackEntry[] = editNewEntries.value
+    .filter(ne => ne.label.trim() && parseToYuan(ne.amount) > 0)
+    .map(ne => ({
+      id: crypto.randomUUID(),
+      itemId,
+      type: ne.side === '店铺' ? 'other' : 'mizhu_extra',
+      customLabel: ne.label.trim(),
+      amount: parseToYuan(ne.amount),
+      dueDate: null,
+      isEstimated: false,
+      createdAt: now,
+    }))
+
+  const merged = [...keepEntries, ...newEntries, ...editPlatformEntries.value, ...editStoreEntries.value]
 
   // 动态重算
   let finalEntries = recalcDynamicEntries(updatedItem, merged)
+
+  // 全量校验（返现总额不超过下单价等）
+  const error = validateItem(updatedItem, finalEntries)
+  if (error) {
+    showToast(error)
+    return
+  }
 
   // 若已确认收货，补算 dueDate
   if (updatedItem.confirmDate) {
@@ -704,6 +887,8 @@ async function doConfirmReceipt() {
   let newEntries = recalcDynamicEntries(updatedItem, entries.value)
   newEntries = updateDueDates(newEntries, today)
   await replaceItemEntries(itemId, newEntries)
+  // 平台保价为即时到账，自动创建收款记录
+  await autoCollectPlatformRefunds(itemId, newEntries, today)
   await updateItem(itemId, { status: '待返现', confirmDate: today })
   showSuccessToast('已确认收货')
   await loadData()
@@ -714,6 +899,14 @@ function openPaymentPopup() {
   payAmount.value = ''
   payPayer.value = '店铺'
   showPaymentPopup.value = true
+}
+
+function fillPayment(payer: Payer) {
+  const pending = payer === '店铺'
+    ? calc.value.storePending
+    : calc.value.mizhuPending
+  payPayer.value = payer
+  payAmount.value = pending > 0 ? String(pending) : ''
 }
 
 async function confirmPayment() {
@@ -748,8 +941,22 @@ async function confirmPayment() {
 }
 
 async function removePayment(id: string) {
-  await deletePayment(id)
-  showSuccessToast('已删除')
+  const payment = payments.value.find(p => p.id === id)
+  if (payment?.batchId) {
+    try {
+      await showConfirmDialog({
+        title: '删除确认',
+        message: '该返现记录属于大套购结算批次，将同时撤销该批次的所有结算记录，确定删除？',
+      })
+    } catch {
+      return
+    }
+    await undoSettlementBatch(payment.batchId, BIG_PURCHASE_ESTIMATE_RATE)
+    showSuccessToast('已撤销结算批次')
+  } else {
+    await deletePayment(id)
+    showSuccessToast('已删除')
+  }
   await loadData()
 }
 </script>
@@ -838,10 +1045,11 @@ async function removePayment(id: string) {
 /* ===== 通用卡片 ===== */
 .section-card {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   margin: 0 12px 12px;
   padding: 14px 0 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--mz-shadow, 0 2px 12px rgba(91, 141, 239, 0.06));
+  border: 1px solid var(--mz-border, #eef0f3);
 }
 
 .section-header {
@@ -1004,11 +1212,15 @@ async function removePayment(id: string) {
 }
 
 .dot-store {
-  background: #1989fa;
+  background: #5b8def;
 }
 
 .dot-mizhu {
   background: #ff976a;
+}
+
+.dot-big {
+  background: #9b6dff;
 }
 
 .group-amt {
@@ -1064,6 +1276,49 @@ async function removePayment(id: string) {
   font-size: 14px;
   font-weight: 600;
   color: #323233;
+}
+
+.entry-amount-edit {
+  flex: 0 0 120px;
+  padding: 4px 8px;
+}
+
+.currency {
+  color: #969799;
+  font-size: 13px;
+}
+
+.entry-row--new {
+  align-items: center;
+  gap: 8px;
+}
+
+.new-entry-label {
+  flex: 1;
+  border: 1px solid #ebedf0;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.entry-del-icon {
+  color: #c8c9cc;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.add-entry-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  color: #1989fa;
+  font-size: 13px;
+  cursor: pointer;
+  border-top: 1px dashed #ebedf0;
 }
 
 .entry-empty {
@@ -1139,6 +1394,15 @@ async function removePayment(id: string) {
 
 .summary-item {
   text-align: center;
+}
+
+.summary-item.clickable {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.summary-item.clickable:active {
+  opacity: 0.6;
 }
 
 .summary-label {

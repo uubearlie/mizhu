@@ -100,7 +100,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast, showSuccessToast } from 'vant'
 import type { Item, CashbackEntry } from '@/types'
-import { getPendingItems, getEntriesByItem, updateItem, replaceItemEntries } from '@/db/crud'
+import { getPendingItems, getEntriesByItem, updateItem, replaceItemEntries, autoCollectPlatformRefunds } from '@/db/crud'
 import { recalcDynamicEntries, updateDueDates } from '@/calc/recalc'
 
 const router = useRouter()
@@ -211,6 +211,8 @@ async function doBatchConfirm() {
       entries = updateDueDates(entries, date)
       // 保存
       await replaceItemEntries(row.item.id, entries)
+      // 平台保价为即时到账，自动创建收款记录
+      await autoCollectPlatformRefunds(row.item.id, entries, date)
       await updateItem(row.item.id, { status: '待返现', confirmDate: date })
     }
 

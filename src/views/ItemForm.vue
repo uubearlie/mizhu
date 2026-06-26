@@ -2,7 +2,7 @@
   <div class="item-form-page">
     <!-- NavBar -->
     <van-nav-bar
-      title="新建商品记录"
+      title="新增订单"
       left-arrow
       fixed
       placeholder
@@ -403,6 +403,20 @@ async function onSave() {
   if (!price || price <= 0) {
     showToast('请输入有效的下单价')
     return
+  }
+
+  // 校验：勾选的返现条目必须填写金额
+  for (const row of fixedStoreRows) {
+    if (row.checked && !row.amount.trim()) {
+      showToast(`请填写「${row.label}」的金额`)
+      return
+    }
+  }
+  for (const row of customStoreRows) {
+    if (row.checked && !row.amount.trim()) {
+      showToast('请填写已勾选条目的金额')
+      return
+    }
   }
 
   const coefficient = resolvedCoefficient.value

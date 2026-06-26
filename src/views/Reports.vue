@@ -212,7 +212,7 @@ const chartOption = computed(() => {
   // 反转使最大值在顶部
   const reversed = [...chartData.value].reverse()
   return {
-    grid: { left: '2%', right: '14%', bottom: '3%', top: '3%', containLabel: true },
+    grid: { left: '2%', right: '8%', bottom: '3%', top: '3%', containLabel: true },
     tooltip: {
       trigger: 'axis',
       axisPointer: { type: 'shadow' },
@@ -220,8 +220,7 @@ const chartOption = computed(() => {
     },
     xAxis: {
       type: 'value',
-      axisLabel: { formatter: (v: number) => `¥${v}`, color: '#969799', fontSize: 11 },
-      splitLine: { lineStyle: { color: '#f2f3f5' } },
+      show: false,
     },
     yAxis: {
       type: 'category',

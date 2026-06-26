@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --mz-primary: #5b8def;
+  --mz-primary-light: #eef3ff;
+  --mz-success: #34c759;
+  --mz-danger: #ff5a5f;
+  --mz-bg: #f5f7fa;
+  --mz-card-radius: 16px;
+  --mz-shadow: 0 2px 12px rgba(91, 141, 239, 0.06);
+  --mz-shadow-hover: 0 4px 16px rgba(91, 141, 239, 0.12);
+  --mz-text-primary: #1a1a2e;
+  --mz-text-secondary: #9ca3af;
+  --mz-border: #eef0f3;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,12 +26,18 @@
 html, body {
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
-  color: #323233;
-  background: #f7f8fa;
+  color: var(--mz-text-primary);
+  background: var(--mz-bg);
 }
 
 #app {
   max-width: 430px;
   margin: 0 auto;
   min-height: 100vh;
+}
+
+/* 修复 Vant Toast 背景被 van-popup 白色背景覆盖的问题 */
+.van-toast {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #fff !important;
 }
