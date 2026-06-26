@@ -7,9 +7,11 @@
 
 ## 安装步骤
 
+应用网址：**https://uubearlie.github.io/mizhu/**
+
 1. 打开 **Safari** 浏览器（⚠️ 必须是 Safari，Chrome/微信内置浏览器无法安装）
 
-2. 在地址栏输入应用网址并访问
+2. 在地址栏输入 **https://uubearlie.github.io/mizhu/** 并访问
 
 3. 点击底部工具栏的 **「分享」按钮**（方框中向上箭头的图标）
 

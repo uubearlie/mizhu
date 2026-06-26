@@ -7,11 +7,13 @@
 
 ## 安装步骤
 
+应用网址：**https://uubearlie.github.io/mizhu/**
+
 ### 方法一：添加到主屏幕（推荐）
 
 1. 打开 **Chrome** 浏览器
 
-2. 在地址栏输入应用网址并访问
+2. 在地址栏输入 **https://uubearlie.github.io/mizhu/** 并访问
 
 3. 点击右上角 **「⋮」菜单** 按钮
 
