@@ -1,0 +1,90 @@
+- generic [ref=e4]:
+  - generic [ref=e6]:
+    - generic [ref=e8] [cursor=pointer]: 
+    - generic [ref=e9]: 大套购结算
+  - generic [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]: 📋 返现规则
+      - generic [ref=e13]: 满 ¥3,000 返 ¥100
+      - generic [ref=e14]: 满 ¥5,000 返 ¥200
+      - generic [ref=e15]: 满 ¥10,000 返 ¥500
+    - generic [ref=e16]: 未结算订单（7）
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - checkbox "" [active] [ref=e19] [cursor=pointer]:
+          - generic [ref=e21]: 
+        - generic [ref=e22]:
+          - generic [ref=e23]: 海尔刮胡刀HSQ1
+          - generic [ref=e24]: ¥66.99
+      - generic [ref=e25]:
+        - checkbox "" [checked] [ref=e26] [cursor=pointer]:
+          - generic [ref=e28]: 
+        - generic [ref=e29]:
+          - generic [ref=e30]: 美的洗碗机
+          - generic [ref=e31]: ¥4000.00
+      - generic [ref=e32]:
+        - checkbox "" [checked] [ref=e33] [cursor=pointer]:
+          - generic [ref=e35]: 
+        - generic [ref=e36]:
+          - generic [ref=e37]: 老板灶具
+          - generic [ref=e38]: ¥1800.00
+      - generic [ref=e39]:
+        - checkbox "" [checked] [ref=e40] [cursor=pointer]:
+          - generic [ref=e42]: 
+        - generic [ref=e43]:
+          - generic [ref=e44]: 九阳豆浆机
+          - generic [ref=e45]: ¥299.00
+      - generic [ref=e46]:
+        - checkbox "" [checked] [ref=e47] [cursor=pointer]:
+          - generic [ref=e49]: 
+        - generic [ref=e50]:
+          - generic [ref=e51]: 小米电饭煲
+          - generic [ref=e52]: ¥599.00
+      - generic [ref=e53]:
+        - checkbox "" [checked] [ref=e54] [cursor=pointer]:
+          - generic [ref=e56]: 
+        - generic [ref=e57]:
+          - generic [ref=e58]: 方太蒸烤箱
+          - generic [ref=e59]: ¥8200.00
+      - generic [ref=e60]:
+        - checkbox "" [checked] [ref=e61] [cursor=pointer]:
+          - generic [ref=e63]: 
+        - generic [ref=e64]:
+          - generic [ref=e65]: 老板烟机62Y
+          - generic [ref=e66]: ¥3500.00
+    - generic [ref=e67]:
+      - generic [ref=e68]: 本批总额
+      - generic [ref=e69]: ¥18398.00
+    - generic [ref=e70]:
+      - generic [ref=e71]: 📐 预览计算
+      - generic [ref=e72]:
+        - generic [ref=e73]: 本批总额
+        - generic [ref=e74]: ¥18398.00
+      - generic [ref=e75]:
+        - generic [ref=e76]: 本批返现
+        - generic [ref=e77]: ¥800.00
+      - generic [ref=e82]:
+        - generic [ref=e83]: 美的洗碗机
+        - generic [ref=e84]: ¥173.93
+      - generic [ref=e85]:
+        - generic [ref=e86]: 老板灶具
+        - generic [ref=e87]: ¥78.27
+      - generic [ref=e88]:
+        - generic [ref=e89]: 九阳豆浆机
+        - generic [ref=e90]: ¥13.00
+      - generic [ref=e91]:
+        - generic [ref=e92]: 小米电饭煲
+        - generic [ref=e93]: ¥26.05
+      - generic [ref=e94]:
+        - generic [ref=e95]: 方太蒸烤箱
+        - generic [ref=e96]: ¥356.56
+      - generic [ref=e97]:
+        - generic [ref=e98]: 老板烟机62Y
+        - generic [ref=e99]: ¥152.19
+    - generic [ref=e100]:
+      - button "确认结算（6）" [ref=e109] [cursor=pointer]:
+        - generic [ref=e103]: 确认结算（6）
+      - button "全部结算" [ref=e104] [cursor=pointer]:
+        - generic [ref=e106]: 全部结算
+    - generic [ref=e107]: 📜 结算记录（0）
+    - generic [ref=e108]: 暂无结算记录

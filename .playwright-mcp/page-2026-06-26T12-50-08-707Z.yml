@@ -1,0 +1,155 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e7]:
+        - generic [ref=e10]:
+          - generic [ref=e12]: 
+          - searchbox "搜索型号 / 订单号" [ref=e15]
+        - button "全部状态" [ref=e18] [cursor=pointer]:
+          - generic [ref=e20]: 全部状态
+      - button " 批量收货" [ref=e22] [cursor=pointer]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: 
+          - generic [ref=e25]: 批量收货
+      - generic [ref=e282]:
+        - generic [ref=e283]:
+          - generic [ref=e285]:
+            - generic [ref=e286]:
+              - generic [ref=e287]:
+                - generic [ref=e288]: 海尔刮胡刀HSQ1
+                - generic [ref=e289]: 待返现
+              - generic [ref=e290]:
+                - generic [ref=e291]: 下单 ¥66.99
+                - generic [ref=e292]: 待返 ¥7.37
+                - generic [ref=e293]: 已返 ¥0.00
+            - generic [ref=e296]:
+              - generic [ref=e297]: 到手价
+              - generic [ref=e298]: ¥59.62
+          - generic [ref=e299]:
+            - button "保价" [ref=e300] [cursor=pointer]:
+              - generic [ref=e302]: 保价
+            - button "⋯" [ref=e303] [cursor=pointer]:
+              - generic [ref=e305]: ⋯
+        - generic [ref=e306]:
+          - generic [ref=e308]:
+            - generic [ref=e309]:
+              - generic [ref=e310]:
+                - generic [ref=e311]: 美的洗碗机
+                - generic [ref=e312]: 待返现
+              - generic [ref=e313]:
+                - generic [ref=e314]: 下单 ¥4,000.00
+                - generic [ref=e315]: 待返 ¥700.00
+                - generic [ref=e316]: 已返 ¥0.00
+            - generic [ref=e319]:
+              - generic [ref=e320]: 到手价
+              - generic [ref=e321]: ¥3,300.00
+          - generic [ref=e322]:
+            - button "保价" [ref=e323] [cursor=pointer]:
+              - generic [ref=e325]: 保价
+            - button "⋯" [ref=e326] [cursor=pointer]:
+              - generic [ref=e328]: ⋯
+        - generic [ref=e329]:
+          - generic [ref=e331]:
+            - generic [ref=e332]:
+              - generic [ref=e333]:
+                - generic [ref=e334]: 老板灶具
+                - generic [ref=e335]: 待返现
+              - generic [ref=e336]:
+                - generic [ref=e337]: 下单 ¥1,800.00
+                - generic [ref=e338]: 待返 ¥490.00
+                - generic [ref=e339]: 已返 ¥0.00
+            - generic [ref=e342]:
+              - generic [ref=e343]: 到手价
+              - generic [ref=e344]: ¥1,310.00
+          - generic [ref=e345]:
+            - button "保价" [ref=e346] [cursor=pointer]:
+              - generic [ref=e348]: 保价
+            - button "⋯" [ref=e349] [cursor=pointer]:
+              - generic [ref=e351]: ⋯
+        - generic [ref=e352]:
+          - generic [ref=e354]:
+            - generic [ref=e355]:
+              - generic [ref=e356]:
+                - generic [ref=e357]: 九阳豆浆机
+                - generic [ref=e358]: 已完成
+              - generic [ref=e359]:
+                - generic [ref=e360]: 下单 ¥299.00
+                - generic [ref=e361]: 待返 ¥14.95
+                - generic [ref=e362]: 已返 ¥50.00
+            - generic [ref=e365]:
+              - generic [ref=e366]: 到手价
+              - generic [ref=e367]: ¥234.05
+          - generic [ref=e368]:
+            - button "保价" [ref=e369] [cursor=pointer]:
+              - generic [ref=e371]: 保价
+            - button "⋯" [ref=e372] [cursor=pointer]:
+              - generic [ref=e374]: ⋯
+        - generic [ref=e375]:
+          - generic [ref=e377]:
+            - generic [ref=e378]:
+              - generic [ref=e379]:
+                - generic [ref=e380]: 小米电饭煲
+                - generic [ref=e381]: 已取消
+              - generic [ref=e382]:
+                - generic [ref=e383]: 下单 ¥599.00
+                - generic [ref=e384]: 待返 ¥29.95
+                - generic [ref=e385]: 已返 ¥0.00
+            - generic [ref=e388]:
+              - generic [ref=e389]: 到手价
+              - generic [ref=e390]: —
+          - button "⋯" [ref=e392] [cursor=pointer]:
+            - generic [ref=e394]: ⋯
+        - generic [ref=e395]:
+          - generic [ref=e397]:
+            - generic [ref=e398]:
+              - generic [ref=e399]:
+                - generic [ref=e400]: 方太蒸烤箱
+                - generic [ref=e401]: 待返现
+              - generic [ref=e402]:
+                - generic [ref=e403]: 下单 ¥8,200.00
+                - generic [ref=e404]: 待返 ¥1,910.00
+                - generic [ref=e405]: 已返 ¥0.00
+            - generic [ref=e408]:
+              - generic [ref=e409]: 到手价
+              - generic [ref=e410]: ¥6,290.00
+          - generic [ref=e411]:
+            - button "保价" [ref=e412] [cursor=pointer]:
+              - generic [ref=e414]: 保价
+            - button "⋯" [ref=e415] [cursor=pointer]:
+              - generic [ref=e417]: ⋯
+        - generic [ref=e418]:
+          - generic [ref=e420]:
+            - generic [ref=e421]:
+              - generic [ref=e422]:
+                - generic [ref=e423]: 老板烟机62Y
+                - generic [ref=e424]: 待收货
+              - generic [ref=e425]:
+                - generic [ref=e426]: 下单 ¥3,500.00
+                - generic [ref=e427]: 待返 ¥1,617.00
+                - generic [ref=e428]: 已返 ¥0.00
+            - generic [ref=e431]:
+              - generic [ref=e432]: 到手价
+              - generic [ref=e433]: ¥1,883.00
+          - generic [ref=e434]:
+            - button "保价" [ref=e435] [cursor=pointer]:
+              - generic [ref=e437]: 保价
+            - button "⋯" [ref=e438] [cursor=pointer]:
+              - generic [ref=e440]: ⋯
+      - generic [ref=e42] [cursor=pointer]: 
+      - text:    
+    - tablist [ref=e43]:
+      - tab " 首页" [ref=e44] [cursor=pointer]:
+        - generic [ref=e46]: 
+        - generic [ref=e47]: 首页
+      - tab " 商品" [selected] [ref=e48] [cursor=pointer]:
+        - generic [ref=e50]: 
+        - generic [ref=e51]: 商品
+      - tab " 待返" [ref=e52] [cursor=pointer]:
+        - generic [ref=e54]: 
+        - generic [ref=e55]: 待返
+      - tab " 统计" [ref=e56] [cursor=pointer]:
+        - generic [ref=e58]: 
+        - generic [ref=e59]: 统计
+  - dialog [ref=e441]:
+    - generic [ref=e442]: 
+    - generic [ref=e443]: 保价已保存

@@ -283,9 +283,10 @@ async function loadData() {
   for (const it of allItems) iMap.set(it.id, it)
   itemMap.value = iMap
 
-  // 未结算：存在预估中的 big_purchase 条目
+  // 未结算：存在预估中的 big_purchase 条目（排除已取消的）
   const unsettled: UnsettledItem[] = []
   for (const item of allItems) {
+    if (item.status === '已取消') continue
     const entries = await getEntriesByItem(item.id)
     const bp = entries.find(e => e.type === 'big_purchase' && e.isEstimated)
     if (bp) {

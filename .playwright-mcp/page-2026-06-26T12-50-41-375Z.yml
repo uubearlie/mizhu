@@ -1,0 +1,119 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e7]: 待返清单
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - generic [ref=e10]: 
+          - generic [ref=e11]: 第16期迷住团购
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - button "⏳ 等待到账 4 " [expanded] [ref=e14] [cursor=pointer]:
+              - generic [ref=e16]:
+                - text: ⏳ 等待到账
+                - generic [ref=e17]: "4"
+              - generic [ref=e18]: 
+            - generic [ref=e20]:
+              - generic [ref=e21]:
+                - generic [ref=e22]:
+                  - generic [ref=e23]: 方太蒸烤箱
+                  - generic [ref=e24]: 已超23天
+                - generic [ref=e25]:
+                  - generic [ref=e26]: 店铺 ¥1500.00
+                  - generic [ref=e27]: 迷住 ¥410.00
+                  - generic [ref=e28]: 应到 06/03
+                - button "收到返现" [ref=e30] [cursor=pointer]:
+                  - generic [ref=e32]: 收到返现
+              - generic [ref=e33]:
+                - generic [ref=e34]:
+                  - generic [ref=e35]: 美的洗碗机
+                  - generic [ref=e36]: 还剩6天
+                - generic [ref=e37]:
+                  - generic [ref=e38]: 店铺 ¥500.00
+                  - generic [ref=e39]: 迷住 ¥200.00
+                  - generic [ref=e40]: 应到 07/02
+                - button "收到返现" [ref=e42] [cursor=pointer]:
+                  - generic [ref=e44]: 收到返现
+              - generic [ref=e45]:
+                - generic [ref=e46]:
+                  - generic [ref=e47]: 老板灶具
+                  - generic [ref=e48]: 还剩8天
+                - generic [ref=e49]:
+                  - generic [ref=e50]: 店铺 ¥200.00
+                  - generic [ref=e51]: 迷住 ¥90.00
+                  - generic [ref=e52]: 应到 07/04
+                - button "收到返现" [ref=e54] [cursor=pointer]:
+                  - generic [ref=e56]: 收到返现
+              - generic [ref=e57]:
+                - generic [ref=e58]:
+                  - generic [ref=e59]: 海尔刮胡刀HSQ1
+                  - generic [ref=e60]: 还剩14天
+                - generic [ref=e61]:
+                  - generic [ref=e62]: 店铺 ¥4.02
+                  - generic [ref=e63]: 迷住 ¥3.35
+                  - generic [ref=e64]: 应到 07/10
+                - button "收到返现" [ref=e66] [cursor=pointer]:
+                  - generic [ref=e68]: 收到返现
+          - button "📋 大套购待结算 4 " [ref=e70] [cursor=pointer]:
+            - generic [ref=e72]:
+              - text: 📋 大套购待结算
+              - generic [ref=e73]: "4"
+            - generic [ref=e74]: 
+      - button [ref=e92]
+      - dialog [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]: 💰 收到返现 · 老板灶具
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - generic [ref=e98]: 店铺待返
+              - generic [ref=e99]: ¥200.00
+            - generic [ref=e101]:
+              - generic [ref=e102]: 迷住待返
+              - generic [ref=e103]: ¥90.00
+          - generic [ref=e104]: 本次收款
+          - generic [ref=e105]:
+            - generic [ref=e106]: 收款金额
+            - textbox "收款金额" [ref=e109]:
+              - /placeholder: "0.00"
+          - generic [ref=e110]:
+            - generic [ref=e111]: 付款方
+            - radiogroup [ref=e112]:
+              - radio " 店铺" [checked] [ref=e113] [cursor=pointer]:
+                - generic [ref=e115]: 
+                - generic [ref=e116]: 店铺
+              - radio " 迷住" [ref=e117] [cursor=pointer]:
+                - generic [ref=e119]: 
+                - generic [ref=e120]: 迷住
+          - button "确认收款" [active] [ref=e121] [cursor=pointer]:
+            - generic [ref=e130]: 确认收款
+          - generic [ref=e124]: 返现记录
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - generic [ref=e133]: 06/26
+              - generic [ref=e134]: 店铺
+            - generic [ref=e135]:
+              - generic [ref=e136]: ¥200.00
+              - button " 删除" [ref=e137] [cursor=pointer]:
+                - generic [ref=e138]:
+                  - generic [ref=e139]: 
+                  - generic [ref=e140]: 删除
+          - generic [ref=e126]:
+            - generic [ref=e127]: 累计已返
+            - generic [ref=e128]: ¥200.00
+        - button "" [ref=e129] [cursor=pointer]
+    - tablist [ref=e75]:
+      - tab " 首页" [ref=e76] [cursor=pointer]:
+        - generic [ref=e78]: 
+        - generic [ref=e79]: 首页
+      - tab " 商品" [ref=e80] [cursor=pointer]:
+        - generic [ref=e82]: 
+        - generic [ref=e83]: 商品
+      - tab " 待返" [selected] [ref=e84] [cursor=pointer]:
+        - generic [ref=e86]: 
+        - generic [ref=e87]: 待返
+      - tab " 统计" [ref=e88] [cursor=pointer]:
+        - generic [ref=e90]: 
+        - generic [ref=e91]: 统计
+  - dialog [ref=e141]:
+    - generic [ref=e142]: 
+    - generic [ref=e143]: 收款已记录

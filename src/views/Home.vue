@@ -285,6 +285,7 @@ const reminders = computed<{ overdue: ReminderEntry[]; upcoming: ReminderEntry[]
 
   for (const { item, entries, calc } of itemDataList.value) {
     if (calc.totalPending <= 0) continue
+    if (item.status !== '待返现') continue // 只显示待返现状态的商品
 
     let minDiff: number | null = null
     for (const entry of entries) {

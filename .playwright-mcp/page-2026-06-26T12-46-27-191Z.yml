@@ -1,0 +1,30 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e7]:
+      - generic [ref=e9] [cursor=pointer]:
+        - generic [ref=e10]: 
+        - generic [ref=e11]: 切换
+      - generic [ref=e12]: 第16期迷住团购
+      - generic [ref=e14] [cursor=pointer]: 
+    - generic [ref=e30]:
+      - button " 新建商品记录" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: 
+          - generic [ref=e34]: 新建商品记录
+      - button " 批量确认收货" [ref=e35] [cursor=pointer]:
+        - generic [ref=e36]:
+          - generic [ref=e37]: 
+          - generic [ref=e38]: 批量确认收货
+  - tablist [ref=e39]:
+    - tab " 首页" [selected] [ref=e40] [cursor=pointer]:
+      - generic [ref=e42]: 
+      - generic [ref=e43]: 首页
+    - tab " 商品" [ref=e44] [cursor=pointer]:
+      - generic [ref=e46]: 
+      - generic [ref=e47]: 商品
+    - tab " 待返" [ref=e48] [cursor=pointer]:
+      - generic [ref=e50]: 
+      - generic [ref=e51]: 待返
+    - tab " 统计" [ref=e52] [cursor=pointer]:
+      - generic [ref=e54]: 
+      - generic [ref=e55]: 统计

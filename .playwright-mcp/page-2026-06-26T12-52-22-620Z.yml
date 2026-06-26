@@ -1,0 +1,64 @@
+- generic [ref=e3]:
+  - generic [ref=e21]:
+    - generic [ref=e24]:
+      - generic [ref=e25]: 统计报表
+      - generic [ref=e27] [cursor=pointer]:
+        - generic [ref=e28]: 
+        - generic [ref=e29]: 导出
+    - generic [ref=e30]:
+      - generic [ref=e31]: 本期总览 · 第16期迷住团购
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: 下单总额
+          - generic [ref=e35]: ¥18,464.99
+        - generic [ref=e36]:
+          - generic [ref=e37]: 总返现
+          - generic [ref=e38]: ¥4,696.02
+        - generic [ref=e39]:
+          - generic [ref=e40]: 实际到手
+          - generic [ref=e41]: ¥13,768.97
+        - generic [ref=e42]:
+          - generic [ref=e43]: 返现率
+          - generic [ref=e44]: 25.4%
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - generic [ref=e47]: 返现进度
+          - generic [ref=e48]: 22%
+        - generic [ref=e51]: 22%
+        - generic [ref=e52]:
+          - generic [ref=e53]: 已返 ¥1,050.00
+          - generic [ref=e54]: 待返 ¥3,646.02
+    - generic [ref=e56]: 返现构成
+    - generic [ref=e60]:
+      - generic [ref=e61]: 历史趋势
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e64]: 参与活动
+          - generic [ref=e65]: 1 期
+        - generic [ref=e66]:
+          - generic [ref=e67]: 累计返现
+          - generic [ref=e68]: ¥4,696.02
+      - generic [ref=e70]:
+        - generic [ref=e71]: 累计省钱
+        - generic [ref=e72]: ¥4,696.02
+    - button [ref=e73]
+    - dialog [ref=e74]:
+      - generic [ref=e75]:
+        - button "导出 JSON" [ref=e76] [cursor=pointer]:
+          - generic [ref=e77]: 导出 JSON
+        - button "导出 Excel (CSV)" [ref=e78] [cursor=pointer]:
+          - generic [ref=e79]: 导出 Excel (CSV)
+      - button "取消" [ref=e81] [cursor=pointer]
+  - tablist [ref=e4]:
+    - tab " 首页" [ref=e5] [cursor=pointer]:
+      - generic [ref=e7]: 
+      - generic [ref=e8]: 首页
+    - tab " 商品" [ref=e9] [cursor=pointer]:
+      - generic [ref=e11]: 
+      - generic [ref=e12]: 商品
+    - tab " 待返" [ref=e13] [cursor=pointer]:
+      - generic [ref=e15]: 
+      - generic [ref=e16]: 待返
+    - tab " 统计" [selected] [ref=e17] [cursor=pointer]:
+      - generic [ref=e19]: 
+      - generic [ref=e20]: 统计

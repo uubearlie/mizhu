@@ -1,0 +1,26 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e7]:
+      - generic [ref=e10]:
+        - generic [ref=e12]: 
+        - searchbox "搜索型号 / 订单号" [ref=e15]
+      - button "全部状态" [ref=e18] [cursor=pointer]:
+        - generic [ref=e20]: 全部状态
+    - button " 批量收货" [ref=e22] [cursor=pointer]:
+      - generic [ref=e23]:
+        - generic [ref=e24]: 
+        - generic [ref=e25]: 批量收货
+    - generic [ref=e42] [cursor=pointer]: 
+  - tablist [ref=e43]:
+    - tab " 首页" [ref=e44] [cursor=pointer]:
+      - generic [ref=e46]: 
+      - generic [ref=e47]: 首页
+    - tab " 商品" [selected] [ref=e48] [cursor=pointer]:
+      - generic [ref=e50]: 
+      - generic [ref=e51]: 商品
+    - tab " 待返" [ref=e52] [cursor=pointer]:
+      - generic [ref=e54]: 
+      - generic [ref=e55]: 待返
+    - tab " 统计" [ref=e56] [cursor=pointer]:
+      - generic [ref=e58]: 
+      - generic [ref=e59]: 统计
