@@ -1,5 +1,16 @@
 # 更新日志
 
+## V1.0.1 (2026-06-26)
+
+### Bug 修复
+- **修复首次打开空白页**：PWA 启动时路由未就绪导致页面空白，需点击底部菜单才显示内容。改为等待路由就绪后再挂载应用。
+- **修复 GitHub Pages 子路径部署路由 404**：`createWebHistory` 传入 `BASE_URL`，确保部署到 `/mizhu/` 子路径下路由跳转正常。
+
+### 部署
+- 配置 GitHub Actions 自动部署到 GitHub Pages
+- 添加 PWA 图标（192px / 512px / maskable / apple-touch-icon）
+- 完善 iOS PWA 全屏 meta 标签
+
 ## V1.0.0 (2026-06-26)
 
 🎉 首次正式发布！
