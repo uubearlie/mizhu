@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>大套购结算</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="">
+<div class="app">
+
+  <!-- App Bar -->
+  <div class="app-bar">
+    <a href="index.html" class="btn-back">‹</a>
+    <h1>💰 大套购结算·第15期</h1>
+    <span style="width:32px"></span>
+  </div>
+
+  <div class="page-content" style="padding-bottom:24px">
+
+    <!-- 规则展示区 -->
+    <div class="settlement-rules">
+      <div style="font-weight:600;margin-bottom:6px">📋 返现规则</div>
+      <div>满 ¥3,000 返 ¥100</div>
+      <div>满 ¥5,000 返 ¥200</div>
+      <div>满 ¥10,000 返 ¥500</div>
+    </div>
+
+    <!-- 未结算订单选择列表 -->
+    <div class="card" style="margin-bottom:0">
+      <div class="card-header">未结算订单（4）</div>
+      <div class="card-body" style="padding:0">
+        <div class="order-select-item checked">
+          <div class="checkbox">✓</div>
+          <div class="order-info">
+            <div class="order-name">老板烟机</div>
+            <div class="order-price">¥3,500</div>
+          </div>
+        </div>
+        <div class="order-select-item checked">
+          <div class="checkbox">✓</div>
+          <div class="order-info">
+            <div class="order-name">老板灶具</div>
+            <div class="order-price">¥1,800</div>
+          </div>
+        </div>
+        <div class="order-select-item">
+          <div class="checkbox"></div>
+          <div class="order-info">
+            <div class="order-name">方太蒸烤箱</div>
+            <div class="order-price">¥8,200</div>
+          </div>
+        </div>
+        <div class="order-select-item">
+          <div class="checkbox"></div>
+          <div class="order-info">
+            <div class="order-name">美的洗碗机</div>
+            <div class="order-price">¥4,000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 本批总额 -->
+    <div style="padding:14px 16px;background:#fff;margin:0 12px;border-radius:0 0 12px 12px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #ebedf0">
+      <span style="font-size:14px;color:#646566">本批总额</span>
+      <span style="font-size:22px;font-weight:700;color:#ee0a24">¥5,300</span>
+    </div>
+
+    <!-- 预览计算区域 -->
+    <div class="preview-box">
+      <div class="preview-title">📐 预览计算</div>
+      <div class="preview-line">
+        <span>档位匹配</span>
+        <span>5,300 → 5,000 ×1 + 300（剩）</span>
+      </div>
+      <div class="preview-line">
+        <span>本批返现</span>
+        <span class="text-bold text-red">¥200</span>
+      </div>
+      <div class="preview-line">
+        <span>分摊 A（比例 66%）</span>
+        <span class="text-bold">¥132.08</span>
+      </div>
+      <div class="preview-line">
+        <span>分摊 B（比例 34%）</span>
+        <span class="text-bold">¥67.92</span>
+      </div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="btn-row">
+      <button class="btn btn-primary">✓ 确认结算</button>
+      <button class="btn btn-success">⚡ 全部结算</button>
+    </div>
+
+    <!-- 结算记录 -->
+    <div style="padding:12px 16px 8px;font-size:13px;color:#969799;font-weight:500">📜 结算记录</div>
+
+    <!-- 第1批（可展开） -->
+    <div class="card" style="margin-top:0">
+      <div class="group-header" data-toggle="collapse">
+        <span>第1批 · 07/01 · A+B</span>
+        <span class="flex" style="align-items:center;gap:8px">
+          <span class="text-red text-bold">¥200</span>
+          <span class="toggle">▾</span>
+        </span>
+      </div>
+      <div class="group-body" style="padding:4px 16px 14px">
+        <div class="cashback-entry">
+          <span class="entry-name">档位匹配</span>
+          <span>3,500 + 1,800 = 5,300 → 满5,000</span>
+        </div>
+        <div class="cashback-entry">
+          <span class="entry-name">返现金额</span>
+          <span class="text-red text-bold">¥200</span>
+        </div>
+        <div class="cashback-entry">
+          <span class="entry-name">分摊 A（66%）</span>
+          <span class="text-bold">¥132.08</span>
+        </div>
+        <div class="cashback-entry">
+          <span class="entry-name">分摊 B（34%）</span>
+          <span class="text-bold">¥67.92</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:10px">
+          <button class="btn btn-sm btn-default" style="color:#ee0a24;border-color:#ffb1b1">↩ 撤销结算</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第2批（可展开） -->
+    <div class="card" style="margin-top:8px">
+      <div class="group-header" data-toggle="collapse">
+        <span>第2批 · 07/15 · C</span>
+        <span class="flex" style="align-items:center;gap:8px">
+          <span class="text-red text-bold">¥500</span>
+          <span class="toggle">▾</span>
+        </span>
+      </div>
+      <div class="group-body hidden" style="padding:4px 16px 14px">
+        <div class="cashback-entry">
+          <span class="entry-name">档位匹配</span>
+          <span>方太蒸烤箱 8,200 → 满5,000</span>
+        </div>
+        <div class="cashback-entry">
+          <span class="entry-name">返现金额</span>
+          <span class="text-red text-bold">¥500</span>
+        </div>
+        <div class="cashback-entry">
+          <span class="entry-name">分摊 C（100%）</span>
+          <span class="text-bold">¥500.00</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:10px">
+          <button class="btn btn-sm btn-default" style="color:#ee0a24;border-color:#ffb1b1">↩ 撤销结算</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

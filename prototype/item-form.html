@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>新建商品记录</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="">
+<div class="app">
+
+  <!-- ===== App Bar ===== -->
+  <div class="app-bar">
+    <a href="items.html" class="btn-back">←</a>
+    <h1>新建商品记录</h1>
+    <span style="width: 40px;"></span>
+  </div>
+
+  <!-- ===== Form Content ===== -->
+  <div style="flex: 1; overflow-y: auto; padding-bottom: 80px;">
+
+    <!-- ----- Section 1: 基本信息 (default expanded) ----- -->
+    <div class="form-section collapsible">
+      <div class="section-header" data-toggle="collapse">
+        基本信息
+        <span class="toggle">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="form-row">
+          <label class="form-label required">型号/商品名</label>
+          <div class="form-value">
+            <input type="text" placeholder="请输入商品名称">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">下单途径</label>
+          <div class="form-value">
+            <select>
+              <option value="">请选择</option>
+              <option value="taobao">淘宝</option>
+              <option value="jd">京东</option>
+              <option value="pdd">拼多多</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">订单号</label>
+          <div class="form-value">
+            <input type="text" placeholder="请输入订单号">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">下单价</label>
+          <div class="form-value">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">赠品</label>
+          <div class="form-value">
+            <input type="text" placeholder="如有赠品请填写">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----- Section 2: 返现明细 (collapsed) ----- -->
+    <div class="form-section collapsible collapsed">
+      <div class="section-header" data-toggle="collapse">
+        返现明细
+        <span class="toggle">▼</span>
+      </div>
+      <div class="section-body">
+
+        <!-- 店铺侧 -->
+        <div style="font-size: 13px; color: #969799; font-weight: 500; padding: 12px 0 4px;">店铺侧</div>
+
+        <div class="check-row">
+          <div class="checkbox"></div>
+          <span class="check-label">下单即返</span>
+          <div class="check-amount" style="display: flex; align-items: center; gap: 2px; width: 110px;">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal" style="width: 80px; text-align: right;">
+          </div>
+        </div>
+
+        <div class="check-row">
+          <div class="checkbox"></div>
+          <span class="check-label">小红书晒单</span>
+          <div class="check-amount" style="display: flex; align-items: center; gap: 2px; width: 110px;">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal" style="width: 80px; text-align: right;">
+          </div>
+        </div>
+
+        <div class="check-row">
+          <div class="checkbox"></div>
+          <span class="check-label">组合购</span>
+          <div class="check-amount" style="display: flex; align-items: center; gap: 2px; width: 110px;">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal" style="width: 80px; text-align: right;">
+          </div>
+        </div>
+
+        <div class="check-row">
+          <div class="checkbox"></div>
+          <input type="text" class="check-label" placeholder="自定义名称" style="border-bottom: 1px solid #ebedf0; height: 22px;">
+          <div class="check-amount" style="display: flex; align-items: center; gap: 2px; width: 110px;">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal" style="width: 80px; text-align: right;">
+          </div>
+        </div>
+
+        <!-- 迷住侧 -->
+        <div style="font-size: 13px; color: #969799; font-weight: 500; padding: 16px 0 4px; border-top: 1px solid #f2f3f5; margin-top: 8px;">迷住侧</div>
+
+        <div class="form-row">
+          <label class="form-label">迷住返</label>
+          <div class="form-value">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal">
+          </div>
+        </div>
+
+        <div data-exclusive-group>
+          <div class="radio-item" style="padding: 12px 0; border-bottom: 1px solid #f2f3f5;">
+            <span class="radio-dot"></span>
+            <span>舰长神券</span>
+            <span style="flex: 1;"></span>
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal" style="width: 80px;">
+          </div>
+          <div class="radio-item" style="padding: 12px 0;">
+            <span class="radio-dot"></span>
+            <span>装修神券</span>
+            <span style="flex: 1;"></span>
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="0.00" inputmode="decimal" style="width: 80px;">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ----- Section 3: 品牌套购 (collapsed) ----- -->
+    <div class="form-section collapsible collapsed">
+      <div class="section-header" data-toggle="collapse">
+        品牌套购
+        <span class="toggle">▼</span>
+      </div>
+      <div class="section-body">
+        <div style="font-size: 12px; color: #969799; padding: 12px 0 4px;">选择参与的套购方案，不选则不参与</div>
+
+        <div class="radio-group" style="flex-direction: column; gap: 0;">
+          <div class="radio-item" style="padding: 12px 0; border-bottom: 1px solid #f2f3f5;">
+            <span class="radio-dot"></span>
+            <span>选项1</span>
+            <span style="flex: 1;"></span>
+            <span class="input-prefix" style="font-size: 13px;">系数</span>
+            <input type="text" placeholder="如 1.5" inputmode="decimal" style="width: 60px;">
+          </div>
+          <div class="radio-item" style="padding: 12px 0; border-bottom: 1px solid #f2f3f5;">
+            <span class="radio-dot"></span>
+            <span>选项2</span>
+            <span style="flex: 1;"></span>
+            <span class="input-prefix" style="font-size: 13px;">系数</span>
+            <input type="text" placeholder="如 2.0" inputmode="decimal" style="width: 60px;">
+          </div>
+          <div class="radio-item" style="padding: 12px 0;">
+            <span class="radio-dot"></span>
+            <span>自定义</span>
+            <span style="flex: 1;"></span>
+            <span class="input-prefix" style="font-size: 13px;">系数</span>
+            <input type="text" placeholder="输入系数" inputmode="decimal" style="width: 60px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== Fixed Bottom Save Button ===== -->
+  <div style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #fff; padding: 12px 16px; border-top: 1px solid #ebedf0; z-index: 50; padding-bottom: calc(12px + env(safe-area-inset-bottom));">
+    <a href="items.html" class="btn btn-primary" style="width: 100%; margin: 0; text-align:center;">保存</a>
+  </div>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>

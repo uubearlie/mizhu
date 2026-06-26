@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>商品清单 - 迷住团购管家</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="items">
+<div class="app">
+
+  <div class="page-content">
+
+    <!-- 搜索栏 + 筛选 -->
+    <div class="search-bar" style="position:sticky;top:0;z-index:50;background:#f7f8fa;">
+      <div class="search-input">
+        <span>🔍</span>
+        <input type="text" placeholder="搜索型号 / 订单号">
+      </div>
+      <select class="filter-select">
+        <option>全部状态</option>
+        <option>待收货</option>
+        <option>待返现</option>
+        <option>已完成</option>
+        <option>已取消</option>
+      </select>
+    </div>
+
+    <!-- 批量收货按钮 -->
+    <a href="batch-confirm.html" class="btn btn-primary btn-block" style="text-align:center;">📦 批量收货</a>
+
+    <!-- 商品列表 -->
+    <div class="item-list">
+
+      <!-- 海尔刮胡刀HSQ1 - 待返现 -->
+      <div class="item-card">
+        <div class="item-header">
+          <a href="item-detail.html" class="item-name">海尔刮胡刀HSQ1</a>
+          <span class="item-status waiting">待返现</span>
+        </div>
+        <div class="item-info">
+          <span>下单 <span class="amount">¥66.99</span></span>
+          <span>待返 <span class="amount red">¥7.37</span></span>
+          <span>已返 <span class="amount green">¥0</span></span>
+        </div>
+        <div class="item-price-row mt-8">
+          <span class="final-price-label">到手价</span>
+          <span class="final-price">¥59.62</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-default btn-sm" data-open-popup="priceProtect">保价</button>
+          <button class="btn btn-default btn-sm" data-open-popup="statusAction">⋯</button>
+        </div>
+      </div>
+
+      <!-- 老板烟机62Y - 待返现 -->
+      <div class="item-card">
+        <div class="item-header">
+          <a href="item-detail.html" class="item-name">老板烟机62Y</a>
+          <span class="item-status waiting">待返现</span>
+        </div>
+        <div class="item-info">
+          <span>下单 <span class="amount">¥3,500</span></span>
+          <span>待返 <span class="amount red">¥835</span></span>
+          <span>已返 <span class="amount green">¥200</span></span>
+        </div>
+        <div class="item-price-row mt-8">
+          <span class="final-price-label">到手价</span>
+          <span class="final-price">¥2,133</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-default btn-sm" data-open-popup="priceProtect">保价</button>
+          <button class="btn btn-default btn-sm" data-open-popup="statusAction">⋯</button>
+        </div>
+      </div>
+
+      <!-- 老板灶具 - 已完成 -->
+      <div class="item-card">
+        <div class="item-header">
+          <a href="item-detail.html" class="item-name">老板灶具</a>
+          <span class="item-status done">已完成</span>
+        </div>
+        <div class="item-info">
+          <span>下单 <span class="amount">¥1,800</span></span>
+          <span>待返 <span class="amount red">¥0</span></span>
+          <span>已返 <span class="amount green">¥600</span></span>
+        </div>
+        <div class="item-price-row mt-8">
+          <span class="final-price-label">到手价</span>
+          <span class="final-price">¥1,200</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-default btn-sm" data-open-popup="priceProtect">保价</button>
+          <button class="btn btn-default btn-sm" data-open-popup="statusAction">⋯</button>
+        </div>
+      </div>
+
+      <!-- 方太蒸烤箱 - 已取消 -->
+      <div class="item-card">
+        <div class="item-header">
+          <a href="item-detail.html" class="item-name">方太蒸烤箱</a>
+          <span class="item-status cancelled">已取消</span>
+        </div>
+        <div class="item-info">
+          <span>下单 <span class="amount">¥8,200</span></span>
+          <span>待返 <span class="amount red">¥0</span></span>
+          <span>已返 <span class="amount green">¥0</span></span>
+        </div>
+        <div class="item-price-row mt-8">
+          <span class="final-price-label">到手价</span>
+          <span class="final-price" style="color:#c8c9cc;">—</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-default btn-sm" data-open-popup="statusAction">⋯</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /page-content -->
+
+  <!-- 新建商品 FAB -->
+  <a href="item-form.html" class="fab">＋</a>
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <a href="index.html" data-nav="home"><span class="nav-icon">🏠</span>首页</a>
+    <a href="items.html" data-nav="items"><span class="nav-icon">📋</span>商品</a>
+    <a href="pending.html" data-nav="pending"><span class="nav-icon">💰</span>待返</a>
+    <a href="reports.html" data-nav="reports"><span class="nav-icon">📊</span>统计</a>
+  </nav>
+
+</div><!-- /app -->
+
+<!-- 遮罩层 -->
+<div class="popup-overlay" data-close-popup></div>
+
+<!-- 状态切换动作菜单 -->
+<div class="action-sheet" data-popup="statusAction">
+  <div class="action-sheet-item">确认收货</div>
+  <div class="action-sheet-item">收到返现</div>
+  <div class="action-sheet-item">重置状态</div>
+  <div class="action-sheet-item">取消订单</div>
+  <div class="action-sheet-gap"></div>
+  <div class="action-sheet-item danger">删除</div>
+  <div class="action-sheet-gap"></div>
+  <div class="action-sheet-cancel" data-close-popup>取消</div>
+</div>
+
+<!-- 快速保价弹窗 -->
+<div class="popup" data-popup="priceProtect">
+  <div class="popup-header">
+    <h2>📝 快速保价</h2>
+    <span class="close" data-close-popup>✕</span>
+  </div>
+  <div class="popup-body">
+    <!-- 平台保价 -->
+    <div class="form-section" style="margin:0;">
+      <div class="section-header" style="display:flex;justify-content:space-between;">
+        <span>🏪 平台保价</span>
+        <span class="text-sm text-gray" data-total>累计 ¥200</span>
+      </div>
+      <div class="section-body">
+        <div class="payment-record">
+          <div class="record-info">
+            <span class="record-date">06/26</span>
+            <span class="record-source store">平台保价</span>
+          </div>
+          <span class="record-amount">¥200</span>
+          <span class="record-delete">删除</span>
+        </div>
+        <div class="form-row" style="border-top:1px solid #f2f3f5;margin-top:4px;" data-add-row>
+          <div class="form-value" style="gap:8px;">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="新增补偿金额" data-add-amount data-add-type="平台保价">
+          </div>
+          <button class="btn btn-sm btn-primary" data-add-price>添加</button>
+        </div>
+      </div>
+    </div>
+    <!-- 店铺保价 -->
+    <div class="form-section" style="margin-top:12px;">
+      <div class="section-header" style="display:flex;justify-content:space-between;">
+        <span>🏪 店铺保价</span>
+        <span class="text-sm text-gray" data-total>累计 ¥100</span>
+      </div>
+      <div class="section-body">
+        <div class="payment-record">
+          <div class="record-info">
+            <span class="record-date">06/20</span>
+            <span class="record-source store">店铺保价</span>
+          </div>
+          <span class="record-amount">¥60</span>
+          <span class="record-delete">删除</span>
+        </div>
+        <div class="payment-record">
+          <div class="record-info">
+            <span class="record-date">06/15</span>
+            <span class="record-source store">店铺保价</span>
+          </div>
+          <span class="record-amount">¥40</span>
+          <span class="record-delete">删除</span>
+        </div>
+        <div class="form-row" style="border-top:1px solid #f2f3f5;margin-top:4px;" data-add-row>
+          <div class="form-value" style="gap:8px;">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="新增补偿金额" data-add-amount data-add-type="店铺保价">
+          </div>
+          <button class="btn btn-sm btn-primary" data-add-price>添加</button>
+        </div>
+      </div>
+    </div>
+    <!-- 迷住保价 -->
+    <div class="form-section" style="margin-top:12px;">
+      <div class="section-header">🏠 迷住保价</div>
+      <div class="section-body">
+        <div class="form-row">
+          <span class="form-label">保价类型</span>
+          <div class="form-value">
+            <div class="radio-group">
+              <label class="radio-item selected"><span class="radio-dot"></span>一类</label>
+              <label class="radio-item"><span class="radio-dot"></span>二类</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <span class="form-label">好价</span>
+          <div class="form-value">
+            <span class="input-prefix">¥</span>
+            <input type="text" placeholder="输入新下单价（需低于原价）">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="popup-footer">
+    <button class="btn btn-default" data-close-popup style="flex:1;">取消</button>
+    <button class="btn btn-primary" data-close-popup style="flex:1;">确认保价</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

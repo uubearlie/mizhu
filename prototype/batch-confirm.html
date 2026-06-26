@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>批量确认收货 · 迷住团购管家</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="">
+<div class="app">
+
+  <!-- ===== App Bar ===== -->
+  <div class="app-bar">
+    <a href="items.html" class="btn-back">←</a>
+    <h1>📦 批量确认收货·第15期</h1>
+    <span style="width: 40px;"></span>
+  </div>
+
+  <!-- ===== Form Content ===== -->
+  <div style="flex: 1; overflow-y: auto; padding-bottom: 80px;">
+
+    <!-- ----- 收货日期 ----- -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-body">
+        <div class="form-row">
+          <label class="form-label">收货日期</label>
+          <div class="form-value">
+            <input type="date" value="2024-06-26">
+          </div>
+          <span class="text-sm text-gray" style="margin-left: 8px; white-space: nowrap;">默认今天</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----- 选择订单 ----- -->
+    <div class="card" style="margin: 12px 0 0;">
+      <div class="card-header">选择订单（仅显示待收货）</div>
+      <div class="card-body" style="padding: 0;">
+
+        <!-- 海尔刮胡刀HSQ1 (默认勾选) -->
+        <div class="order-select-item checked">
+          <div class="checkbox">✓</div>
+          <div class="order-info">
+            <div class="order-name">海尔刮胡刀HSQ1</div>
+            <div class="order-price">¥66.99</div>
+          </div>
+          <span class="tag info">待收货</span>
+        </div>
+
+        <!-- 老板烟机62Y (默认勾选) -->
+        <div class="order-select-item checked">
+          <div class="checkbox">✓</div>
+          <div class="order-info">
+            <div class="order-name">老板烟机62Y</div>
+            <div class="order-price">¥3,500</div>
+          </div>
+          <span class="tag info">待收货</span>
+        </div>
+
+        <!-- 老板灶具 -->
+        <div class="order-select-item">
+          <div class="checkbox"></div>
+          <div class="order-info">
+            <div class="order-name">老板灶具</div>
+            <div class="order-price">¥1,800</div>
+          </div>
+          <span class="tag info">待收货</span>
+        </div>
+
+        <!-- 方太蒸烤箱 -->
+        <div class="order-select-item" style="border-bottom: none;">
+          <div class="checkbox"></div>
+          <div class="order-info">
+            <div class="order-name">方太蒸烤箱</div>
+            <div class="order-price">¥8,200</div>
+          </div>
+          <span class="tag info">待收货</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ----- 已选统计 ----- -->
+    <div class="divider"></div>
+    <div style="text-align: center; padding: 4px 0; font-size: 13px; color: #969799;">
+      已选 <span class="text-blue text-bold" style="font-size: 15px;">2</span> 件
+    </div>
+
+  </div>
+
+  <!-- ===== Fixed Bottom Confirm Button ===== -->
+  <div style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #fff; padding: 12px 16px; border-top: 1px solid #ebedf0; z-index: 50; padding-bottom: calc(12px + env(safe-area-inset-bottom));">
+    <button class="btn btn-primary btn-block" style="margin: 0;">确认收货(2)</button>
+  </div>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>

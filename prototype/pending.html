@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>待返清单 · 迷住团购管家</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="pending">
+<div class="app">
+
+  <!-- ===== App Bar ===== -->
+  <div class="app-bar">
+    <h1>待返清单 · 第15期迷住团购</h1>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ===== Group 1: 等待到账 (默认展开) ===== -->
+    <div class="group-header" data-toggle="collapse">
+      <span>⏳ 等待到账 <span class="group-count">(2)</span></span>
+      <span class="toggle">▼</span>
+    </div>
+    <div class="group-body" style="background:#f7f8fa; padding:4px 0 8px;">
+
+      <!-- 老板灶具 (应到07/05, 已超3天) -->
+      <div class="item-card">
+        <div class="item-header">
+          <span class="item-name">老板灶具</span>
+          <span class="tag danger">⚠️ 已超3天</span>
+        </div>
+        <div class="item-info">
+          <span>店铺 <span class="amount">¥0</span></span>
+          <span>迷住 <span class="amount green">¥72</span></span>
+          <span class="text-gray">应到 07/05</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-sm btn-success" data-open-popup="cashback">收到返现</button>
+        </div>
+      </div>
+
+      <!-- 海尔刮胡刀HSQ1 (应到07/10, 还剩5天) -->
+      <div class="item-card">
+        <div class="item-header">
+          <span class="item-name">海尔刮胡刀HSQ1</span>
+          <span class="tag info">还剩5天</span>
+        </div>
+        <div class="item-info">
+          <span>店铺 <span class="amount">¥4.02</span></span>
+          <span>迷住 <span class="amount green">¥3.35</span></span>
+          <span class="text-gray">应到 07/10</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-sm btn-success" data-open-popup="cashback">收到返现</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== Group 2: 大套购待结算 (默认折叠) ===== -->
+    <div class="group-header collapsed" data-toggle="collapse">
+      <span>📋 大套购待结算 <span class="group-count">(1)</span></span>
+      <span class="toggle">▼</span>
+    </div>
+    <div class="group-body hidden" style="background:#f7f8fa; padding:4px 0 8px;">
+
+      <div class="item-card">
+        <div class="item-header">
+          <span class="item-name">第15期大套购</span>
+          <span class="tag warning">待结算</span>
+        </div>
+        <div class="item-info">
+          <span>2件未结算</span>
+          <span>预估 <span class="amount red">¥500</span></span>
+        </div>
+        <div class="item-actions">
+          <a href="settlement.html" class="btn btn-sm btn-warning">💰 手动结算</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===== Bottom Nav ===== -->
+  <nav class="bottom-nav">
+    <a href="index.html" data-nav="home"><span class="nav-icon">🏠</span>首页</a>
+    <a href="items.html" data-nav="items"><span class="nav-icon">📋</span>商品</a>
+    <a href="pending.html" data-nav="pending"><span class="nav-icon">💰</span>待返</a>
+    <a href="reports.html" data-nav="reports"><span class="nav-icon">📊</span>统计</a>
+  </nav>
+
+</div>
+
+<!-- ===== Popup: 收到返现 ===== -->
+<div class="popup-overlay" data-close-popup></div>
+<div class="popup" data-popup="cashback">
+  <div class="popup-header">
+    <h2>💰 收到返现·老板烟机62Y</h2>
+    <span class="close" data-close-popup>✕</span>
+  </div>
+  <div class="popup-body">
+
+    <!-- 待返金额 -->
+    <div class="cashback-group">
+      <div class="cashback-entry">
+        <span class="entry-name">店铺待返</span>
+        <span class="entry-amount text-red">¥835</span>
+      </div>
+      <div class="cashback-entry">
+        <span class="entry-name">迷住待返</span>
+        <span class="entry-amount text-red">¥332</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 本次收款 -->
+    <div class="text-md text-bold mb-8">本次收款</div>
+    <div class="form-row">
+      <span class="form-label">收款金额</span>
+      <div class="form-value">
+        <span class="input-prefix">¥</span>
+        <input type="text" inputmode="decimal" placeholder="0.00">
+      </div>
+    </div>
+    <div class="form-row">
+      <span class="form-label">付款方</span>
+      <div class="form-value">
+        <select>
+          <option value="store">店铺</option>
+          <option value="mizhu">迷住</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="flex:none; width:100%; margin-top:12px;">确认收款</button>
+
+    <div class="divider"></div>
+
+    <!-- 返现记录 -->
+    <div class="text-md text-bold mb-8">返现记录</div>
+    <div class="payment-record">
+      <div class="record-info">
+        <span class="record-date">07/05</span>
+        <span class="record-source store">店铺</span>
+      </div>
+      <div class="flex gap-8" style="align-items:center;">
+        <span class="record-amount">¥500</span>
+        <span class="record-delete">删除</span>
+      </div>
+    </div>
+    <div class="payment-record">
+      <div class="record-info">
+        <span class="record-date">06/28</span>
+        <span class="record-source store">店铺</span>
+      </div>
+      <div class="flex gap-8" style="align-items:center;">
+        <span class="record-amount">¥200</span>
+        <span class="record-delete">删除</span>
+      </div>
+    </div>
+    <div class="payment-record">
+      <div class="record-info">
+        <span class="record-date">06/26</span>
+        <span class="record-source mizhu">迷住</span>
+      </div>
+      <div class="flex gap-8" style="align-items:center;">
+        <span class="record-amount">¥100</span>
+        <span class="record-delete">删除</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="popup-footer" style="justify-content:center; align-items:baseline;">
+    <span class="text-gray text-md">累计已返</span>
+    <span class="text-bold text-red" style="font-size:20px;">¥800</span>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

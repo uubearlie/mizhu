@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>迷住团购管家</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="home">
+<div class="app">
+
+  <!-- 活动切换 -->
+  <div class="activity-switcher">
+    <div class="activity-select">
+      <span>第15期迷住团购</span>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="activity-dropdown hidden">
+      <div class="item">
+        <span>第15期迷住团购</span>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <a href="activity-create.html?edit=1&name=第15期迷住团购&start=2024-06-01&end=2024-06-30" style="color:#1989fa;font-size:13px;">编辑</a>
+          <span class="check">✓</span>
+        </div>
+      </div>
+      <div class="item">
+        <span>第14期迷住团购</span>
+        <a href="activity-create.html?edit=1&name=第14期迷住团购&start=2024-05-01&end=2024-05-31" style="color:#1989fa;font-size:13px;">编辑</a>
+      </div>
+      <div class="item">
+        <span>第13期迷住团购</span>
+        <a href="activity-create.html?edit=1&name=第13期迷住团购&start=2024-04-01&end=2024-04-30" style="color:#1989fa;font-size:13px;">编辑</a>
+      </div>
+      <a href="activity-create.html" class="new-activity" style="display:flex;">
+        <span>➕</span>
+        <span>新建团购活动</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- 活动概览 -->
+    <div class="card">
+      <div class="card-header">活动概览</div>
+      <div class="card-body">
+        <div class="overview-grid">
+          <div class="overview-item">
+            <span class="label">累计下单</span>
+            <span class="value">¥45,200</span>
+          </div>
+          <div class="overview-item">
+            <span class="label">购买商品</span>
+            <span class="value primary">23件</span>
+          </div>
+          <div class="overview-item">
+            <span class="label">已返</span>
+            <span class="value" style="color:#07c160">¥8,000</span>
+          </div>
+          <div class="overview-item">
+            <span class="label">待返</span>
+            <span class="value highlight">¥12,345</span>
+          </div>
+        </div>
+        <div class="overview-row">
+          <div class="sub-item">
+            <span class="label">店铺待返</span>
+            <span class="value">¥7,200</span>
+          </div>
+          <div class="sub-item">
+            <span class="label">迷住待返</span>
+            <span class="value">¥5,145</span>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="fill" style="width:62%"></div>
+        </div>
+        <div class="progress-text">
+          <span>返现进度</span>
+          <span>62%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 待返提醒 -->
+    <div class="card">
+      <div class="card-header">待返提醒</div>
+      <div class="card-body">
+        <!-- 超期 -->
+        <div class="reminder urgent" data-toggle="collapse" style="cursor:pointer;">
+          <span class="icon">⚠️</span>
+          <span class="text"><span class="count text-red">3</span> 笔返现已超期</span>
+          <span class="text-gray text-sm toggle">▾</span>
+        </div>
+        <div class="hidden" style="padding:0 0 8px 0;">
+          <div style="padding:6px 28px;display:flex;justify-content:space-between;font-size:13px;color:#646566;">
+            <span>老板灶具</span>
+            <span class="text-red">已超3天</span>
+          </div>
+          <div style="padding:6px 28px;display:flex;justify-content:space-between;font-size:13px;color:#646566;">
+            <span>方太洗碗机</span>
+            <span class="text-red">已超1天</span>
+          </div>
+          <div style="padding:6px 28px;display:flex;justify-content:space-between;font-size:13px;color:#646566;">
+            <span>美的微波炉</span>
+            <span class="text-red">已超1天</span>
+          </div>
+        </div>
+        <!-- 即将到期 -->
+        <div class="reminder warning" data-toggle="collapse" style="cursor:pointer;">
+          <span class="icon">⏰</span>
+          <span class="text"><span class="count" style="color:#ff976a">2</span> 笔即将到期</span>
+          <span class="text-gray text-sm toggle">▾</span>
+        </div>
+        <div class="hidden" style="padding:0 0 8px 0;">
+          <div style="padding:6px 28px;display:flex;justify-content:space-between;font-size:13px;color:#646566;">
+            <span>海尔刮胡刀HSQ1</span>
+            <span style="color:#ff976a">还剩5天</span>
+          </div>
+          <div style="padding:6px 28px;display:flex;justify-content:space-between;font-size:13px;color:#646566;">
+            <span>老板烟机62Y</span>
+            <span style="color:#ff976a">还剩8天</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部操作按钮 -->
+    <div class="btn-row">
+      <a href="item-form.html" class="btn btn-primary">➕ 新建商品记录</a>
+      <a href="batch-confirm.html" class="btn btn-success">📦 批量确认收货</a>
+    </div>
+
+  </div>
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <a href="index.html" data-nav="home"><span class="nav-icon">🏠</span>首页</a>
+    <a href="items.html" data-nav="items"><span class="nav-icon">📋</span>商品</a>
+    <a href="pending.html" data-nav="pending"><span class="nav-icon">💰</span>待返</a>
+    <a href="reports.html" data-nav="reports"><span class="nav-icon">📊</span>统计</a>
+  </nav>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
