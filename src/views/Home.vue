@@ -330,9 +330,10 @@ function activityLabel(act: Activity): string {
 
 function computeDueDate(entry: CashbackEntry, item: Item): string | null {
   if (entry.dueDate) return entry.dueDate
+  if (!item.confirmDate) return null // 未确认收货，不参与倒计时
   const rule = ENTRY_TYPE_MAP[entry.type].dueRule
-  if (rule === '即时') return item.confirmDate ?? item.createdAt
-  if (rule === '收货+14天' && item.confirmDate) {
+  if (rule === '即时') return item.confirmDate
+  if (rule === '收货+14天') {
     const d = new Date(item.confirmDate)
     d.setDate(d.getDate() + 14)
     return d.toISOString()

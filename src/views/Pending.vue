@@ -284,9 +284,10 @@ function fmtDate(d: string | null): string {
 /** 计算某条目应到日期（与 Home 页一致：优先 entry.dueDate，否则按规则推算） */
 function computeDueDate(entry: CashbackEntry, item: Item): string | null {
   if (entry.dueDate) return entry.dueDate
+  if (!item.confirmDate) return null // 未确认收货，不参与倒计时
   const rule = ENTRY_TYPE_MAP[entry.type].dueRule
-  if (rule === '即时') return item.confirmDate ?? item.createdAt
-  if (rule === '收货+14天' && item.confirmDate) {
+  if (rule === '即时') return item.confirmDate
+  if (rule === '收货+14天') {
     const d = new Date(item.confirmDate)
     d.setDate(d.getDate() + 14)
     return d.toISOString().slice(0, 10)
