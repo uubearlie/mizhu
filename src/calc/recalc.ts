@@ -54,7 +54,7 @@ export function recalcDynamicEntries(item: Item, entries: CashbackEntry[]): Cash
   // Step 2: 迷住保价
   const protectEntry = updated.find(e => e.type === 'mizhu_protect')
   const protectResult = calcMizhuProtect(item, updated)
-  if (item.mizhuProtectType && item.mizhuProtectPrice && item.mizhuProtectPrice < item.price) {
+  if (item.mizhuProtectType && item.mizhuProtectPrice != null) {
     if (protectResult.refund > 0) {
       if (protectEntry) {
         protectEntry.amount = protectResult.refund
@@ -127,7 +127,7 @@ export function validateItem(item: Item, entries: CashbackEntry[]): string | nul
   }
 
   if (item.mizhuProtectPrice && item.mizhuProtectPrice >= item.price) {
-    return '保价好价必须小于下单价'
+    return '迷住保价到手价应低于下单价'
   }
 
   return null

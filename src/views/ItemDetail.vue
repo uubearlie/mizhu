@@ -183,7 +183,7 @@
             </van-radio-group>
           </div>
           <div class="mizhu-row">
-            <span class="mizhu-label">好价</span>
+            <span class="mizhu-label">迷住保价到手价</span>
             <van-field
               v-model="form.mizhuPrice"
               type="number"
@@ -639,7 +639,7 @@ async function saveEdit() {
   const mizhuType: MizhuProtectType = form.value.mizhuType || null
   const mizhuPrice = form.value.mizhuPrice ? parseToYuan(form.value.mizhuPrice) : null
   if (mizhuType && mizhuPrice != null && mizhuPrice >= newPrice) {
-    showToast('好价必须低于下单价')
+    showToast('迷住保价到手价应低于下单价')
     return
   }
 

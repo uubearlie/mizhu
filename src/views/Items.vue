@@ -187,11 +187,11 @@
             </van-radio-group>
           </div>
           <div class="mizhu-row">
-            <span class="mizhu-label">好价</span>
+            <span class="mizhu-label">迷住保价到手价</span>
             <van-field
               v-model="protectData.mizhuPriceInput"
               type="number"
-              placeholder="输入新下单价（需低于原价）"
+              placeholder="输入迷住保价承诺的到手价"
               class="protect-input"
             >
               <template #left-icon><span>¥</span></template>
@@ -502,9 +502,9 @@ async function confirmProtect() {
   const mizhuType: MizhuProtectType = work.mizhuType || null
   const mizhuPrice = work.mizhuPriceInput ? parseToYuan(work.mizhuPriceInput) : null
 
-  // 校验好价 < 下单价
+  // 校验迷住保价到手价 < 下单价
   if (mizhuType && mizhuPrice != null && mizhuPrice >= row.item.price) {
-    showToast('好价必须低于下单价')
+    showToast('迷住保价到手价应低于下单价')
     return
   }
 
