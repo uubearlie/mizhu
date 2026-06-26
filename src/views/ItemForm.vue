@@ -65,15 +65,34 @@
         <van-collapse-item title="返现明细" name="cashback">
           <!-- 店铺侧 -->
           <div class="sub-title">店铺侧</div>
+          <!-- 固定的店铺侧条目 -->
           <div
-            v-for="row in storeRows"
+            v-for="row in fixedStoreRows"
             :key="row.type"
             class="check-row"
           >
             <van-checkbox v-model="row.checked" shape="square" />
-            <span v-if="row.type !== 'other'" class="check-name">{{ row.label }}</span>
+            <span class="check-name">{{ row.label }}</span>
+            <van-field
+              v-model="row.amount"
+              type="number"
+              placeholder="0.00"
+              class="amount-field"
+              input-align="right"
+              :disabled="!row.checked"
+            >
+              <template #left-icon><span class="currency">¥</span></template>
+            </van-field>
+          </div>
+
+          <!-- 自定义条目（支持多个） -->
+          <div
+            v-for="(row, idx) in customStoreRows"
+            :key="'custom-' + idx"
+            class="check-row"
+          >
+            <van-checkbox v-model="row.checked" shape="square" />
             <input
-              v-else
               v-model="row.customLabel"
               class="custom-name-input"
               placeholder="自定义名称"
@@ -88,6 +107,12 @@
             >
               <template #left-icon><span class="currency">¥</span></template>
             </van-field>
+            <van-icon name="cross" class="remove-custom" @click="customStoreRows.splice(idx, 1)" />
+          </div>
+
+          <!-- 添加自定义条目按钮 -->
+          <div class="add-custom-row" @click="addCustomRow">
+            <van-icon name="add-o" /> 添加自定义条目
           </div>
 
           <!-- 迷住侧 -->
@@ -234,12 +259,25 @@ interface StoreRow {
   customLabel: string
 }
 
-const storeRows = reactive<StoreRow[]>([
+// 固定的店铺侧条目（不含"其他"）
+const fixedStoreRows = reactive<StoreRow[]>([
   { type: 'instant_cashback', label: '下单即返', checked: false, amount: '', customLabel: '' },
   { type: 'xhs_post', label: '小红书晒单', checked: false, amount: '', customLabel: '' },
   { type: 'combo', label: '组合购', checked: false, amount: '', customLabel: '' },
-  { type: 'other', label: '其他', checked: false, amount: '', customLabel: '' },
 ])
+
+// 自定义条目（支持多个）
+const customStoreRows = reactive<StoreRow[]>([])
+
+function addCustomRow() {
+  customStoreRows.push({
+    type: 'other',
+    label: '其他',
+    checked: true,
+    amount: '',
+    customLabel: '',
+  })
+}
 
 // 迷住侧
 const mizhuExtra = ref('')
@@ -290,8 +328,8 @@ function buildEntries(itemId: string, price: number): CashbackEntry[] {
     createdAt: now,
   })
 
-  // 店铺侧手填条目
-  for (const row of storeRows) {
+  // 店铺侧固定条目
+  for (const row of fixedStoreRows) {
     if (!row.checked) continue
     const amount = parseToYuan(row.amount)
     if (amount <= 0) continue
@@ -299,7 +337,24 @@ function buildEntries(itemId: string, price: number): CashbackEntry[] {
       id: crypto.randomUUID(),
       itemId,
       type: row.type,
-      customLabel: row.type === 'other' ? (row.customLabel.trim() || '其他') : null,
+      customLabel: null,
+      amount,
+      dueDate: null,
+      isEstimated: false,
+      createdAt: now,
+    })
+  }
+
+  // 店铺侧自定义条目
+  for (const row of customStoreRows) {
+    if (!row.checked) continue
+    const amount = parseToYuan(row.amount)
+    if (amount <= 0) continue
+    entries.push({
+      id: crypto.randomUUID(),
+      itemId,
+      type: 'other',
+      customLabel: row.customLabel.trim() || '其他',
       amount,
       dueDate: null,
       isEstimated: false,
@@ -429,6 +484,26 @@ async function onSave() {
 
 .form-section {
   margin-top: 12px;
+}
+
+.add-custom-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #1989fa;
+  border-top: 1px dashed #dcdee0;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.remove-custom {
+  color: #ee0a24;
+  font-size: 16px;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 /* 金额符号 */

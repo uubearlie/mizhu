@@ -722,6 +722,14 @@ async function confirmPayment() {
     showToast('请输入有效金额')
     return
   }
+  // 校验：收款金额不得超过对应付款方的待返金额
+  const pending = payPayer.value === '店铺'
+    ? calc.value.storePending
+    : calc.value.mizhuPending
+  if (amount > pending) {
+    showToast(`${payPayer.value}待返仅剩 ¥${pending.toFixed(2)}，不可超额收款`)
+    return
+  }
   submitting.value = true
   try {
     await createPayment({
