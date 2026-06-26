@@ -1,0 +1,49 @@
+- generic [ref=e4]:
+  - generic [ref=e7]:
+    - generic [ref=e9] [cursor=pointer]: 
+    - generic [ref=e10]: 新建活动
+  - generic [ref=e11]:
+    - generic [ref=e12]: 基本信息
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: "*活动名称"
+        - textbox "活动名称" [ref=e18]:
+          - /placeholder: 请输入活动名称
+      - button "开始日期 " [ref=e19] [cursor=pointer]:
+        - generic [ref=e20]: 开始日期
+        - textbox "开始日期" [ref=e23]:
+          - /placeholder: 请选择日期
+        - generic [ref=e24]: 
+      - button "结束日期 " [ref=e25] [cursor=pointer]:
+        - generic [ref=e26]: 结束日期
+        - textbox "结束日期" [ref=e29]:
+          - /placeholder: 请选择日期
+        - generic [ref=e30]: 
+    - generic [ref=e31]: 大套购规则
+    - generic [ref=e33]:
+      - generic [ref=e34]: 启用大套购
+      - switch [checked] [ref=e35] [cursor=pointer]
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]: 满
+        - textbox "金额" [ref=e40]: "3000"
+        - generic [ref=e41]: 返
+        - textbox "返现" [ref=e42]: "100"
+        - generic [ref=e43]: 
+      - generic [ref=e44]:
+        - generic [ref=e45]: 满
+        - textbox "金额" [ref=e46]: "5000"
+        - generic [ref=e47]: 返
+        - textbox "返现" [ref=e48]: "200"
+        - generic [ref=e49]: 
+      - generic [ref=e50]:
+        - generic [ref=e51]: 满
+        - textbox "金额" [ref=e52]: "10000"
+        - generic [ref=e53]: 返
+        - textbox "返现" [ref=e54]: "500"
+        - generic [ref=e55]: 
+      - button " 添加档位" [ref=e56] [cursor=pointer]:
+        - generic [ref=e57]: 
+        - text: 添加档位
+  - button "保存" [ref=e59] [cursor=pointer]:
+    - generic [ref=e61]: 保存

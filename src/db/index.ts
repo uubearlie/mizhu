@@ -10,8 +10,8 @@ export class MizhuDB extends Dexie {
 
   constructor() {
     super('mizhu_db')
-    this.version(1).stores({
-      activities: 'id, name, status',
+    this.version(2).stores({
+      activities: 'id, name, status, createdAt',
       items: 'id, activityId, status, channel, orderNo, isDeleted',
       cashbackEntries: 'id, itemId, type',
       paymentRecords: 'id, itemId, payer',

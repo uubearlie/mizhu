@@ -18,7 +18,8 @@ export async function getActivity(id: string): Promise<Activity | undefined> {
 }
 
 export async function getAllActivities(): Promise<Activity[]> {
-  return db.activities.orderBy('createdAt').reverse().toArray()
+  const list = await db.activities.toArray()
+  return list.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 }
 
 export async function deleteActivity(id: string): Promise<void> {
